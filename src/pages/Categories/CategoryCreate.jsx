@@ -69,7 +69,6 @@ const CategoryCreate = () => {
       }
     });
     Axios.get(VENDOR_DROPDOWN).then((res) => {
-      let data = res.data.data;
       setVendor([{ label: "All", value: 0 }].concat(res.data.data));
     });
   }, []);
