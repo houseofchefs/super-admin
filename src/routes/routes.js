@@ -1,7 +1,7 @@
 /**
  * ################## API's Service Route's Defining ##################
  */
-const app = "development";
+const app = "local";
 export const baseUrl =
   app === "development"
     ? "http://api-services.houseofchefs.in/api/v1"
