@@ -36,6 +36,3 @@ export const DISCOUNT_LIST = "/discount";
 export const ORDER_NEXT_ACTION = "/admin/order/next-action/";
 export const SEPARATE_MENU_DETAILS = "/menu/separate-detail/";
 export const UPDATE_MENU = "/menu/update/";
-export const GET_GOOGLE_PLACE_API = (input) => {
-  return `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${input}&components=country:IN&key=AIzaSyBXGr2otQrGuS-rFr_ypNkK-SefIZNfmA0`;
-};
