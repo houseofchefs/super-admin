@@ -15,22 +15,26 @@ const VendorList = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    Axios.get(VENDORLIST + `?page=${page}`).then((response) => {
-      if (
-        response.status === 200 &&
-        response.data.status &&
-        response.data.data.data.length > 0
-      ) {
-        setData(response.data.data.data);
-        setPaginator({
-          prev: response.data.data.prev_page_url != null,
-          next: response.data.data.next_page_url != null,
-          total: response.data.data.total,
-          current: response.data.data.current_page,
-          last: response.data.data.last_page,
-        });
-      }
-    });
+    const fetchData = async () => {
+      let api = await Axios;
+      api.get(VENDORLIST + `?page=${page}`).then((response) => {
+        if (
+          response.status === 200 &&
+          response.data.status &&
+          response.data.data.data.length > 0
+        ) {
+          setData(response.data.data.data);
+          setPaginator({
+            prev: response.data.data.prev_page_url != null,
+            next: response.data.data.next_page_url != null,
+            total: response.data.data.total,
+            current: response.data.data.current_page,
+            last: response.data.data.last_page,
+          });
+        }
+      });
+    };
+    fetchData();
   }, [page]);
   return (
     <div className="card">

@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import { CATEGORIES_LIST } from "../../routes/routes";
 import { INTERNAL_SERVER_ERROR, PAGINATE } from "../../constant/constant";
 import { toast } from "react-toastify";
-import { Axios, NoDataFound, Pagination, setBadgeClass } from "../../components/Utils";
+import {
+  Axios,
+  NoDataFound,
+  Pagination,
+  setBadgeClass,
+} from "../../components/Utils";
 
 const CategoryList = () => {
   // ## State Variable Declaration
@@ -15,22 +20,32 @@ const CategoryList = () => {
    * @API Categories List API's call
    */
   useEffect(() => {
-    Axios.get(CATEGORIES_LIST + `?type=${PAGINATE}&page=${page}`)
-      .then((response) => {
-        if (response.status === 200 && response.data.status && response.data.data.data.length > 0) {
-          setData(response.data.data.data);
-          setPaginator({
-            prev: response.data.data.prev_page_url != null,
-            next: response.data.data.next_page_url != null,
-            total: response.data.data.total,
-            current: response.data.data.current_page,
-            last: response.data.data.last_page,
-          });
-        }
-      })
-      .catch((error) => {
-        toast.error(INTERNAL_SERVER_ERROR);
-      });
+    const fetchData = async () => {
+      let api = await Axios;
+      api
+        .get(CATEGORIES_LIST + `?type=${PAGINATE}&page=${page}`)
+        .then((response) => {
+          if (
+            response.status === 200 &&
+            response.data.status &&
+            response.data.data.data.length > 0
+          ) {
+            setData(response.data.data.data);
+            setPaginator({
+              prev: response.data.data.prev_page_url != null,
+              next: response.data.data.next_page_url != null,
+              total: response.data.data.total,
+              current: response.data.data.current_page,
+              last: response.data.data.last_page,
+            });
+          }
+        })
+        .catch((error) => {
+          toast.error(INTERNAL_SERVER_ERROR);
+        });
+    };
+
+    fetchData();
   }, [page]);
   return (
     <div className="card">
@@ -54,7 +69,7 @@ const CategoryList = () => {
             </tr>
           </thead>
           <tbody className="table-border-bottom-0">
-            {data.length > 0 ?
+            {data.length > 0 ? (
               data.map((category, i) => (
                 <tr key={i}>
                   <td>
@@ -71,19 +86,28 @@ const CategoryList = () => {
                   </td>
                   <td>{category?.name}</td>
                   <td>{category?.slots}</td>
-                  <td>{category?.vendor_id !== 0 ? category?.vendor_name : "Admin"}</td>
+                  <td>
+                    {category?.vendor_id !== 0
+                      ? category?.vendor_name
+                      : "Admin"}
+                  </td>
                   <td>
                     <span className={setBadgeClass(category.status)}>
                       {category?.status}
                     </span>
                   </td>
                 </tr>
-              )) : <NoDataFound front="2" back="2" message="No Data Found" /> }
+              ))
+            ) : (
+              <NoDataFound front="2" back="2" message="No Data Found" />
+            )}
           </tbody>
         </table>
       </div>
       {/* Pagination Component */}
-      {data.length > 0 && <Pagination paginator={paginator} page={(no) => setPage(no)} />}
+      {data.length > 0 && (
+        <Pagination paginator={paginator} page={(no) => setPage(no)} />
+      )}
     </div>
   );
 };
