@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
 import {
-  Axios,
   ValidationMessage,
   frameDataOptions,
   pluckValue,
@@ -20,6 +19,7 @@ import {
 } from "../../../routes/routes";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const MenuEditModal = ({
   editMenuModal,
@@ -61,7 +61,7 @@ const MenuEditModal = ({
       
     }
 
-    Axios.put(UPDATE_MENU + data, requestBody)
+    axios.put(UPDATE_MENU + data, requestBody)
       .then((response) => {
         if (response.status === 200 && response.data.status) {
           toast.success(response.data.msg);
@@ -86,7 +86,7 @@ const MenuEditModal = ({
 
   useEffect(() => {
     let statusData = [];
-    Axios.get(SUBMODULES + MENU_STATUS).then((response) => {
+    axios.get(SUBMODULES + MENU_STATUS).then((response) => {
       if (response.status === 200) {
         statusData = frameDataOptions(
           response.data.data,
@@ -96,7 +96,7 @@ const MenuEditModal = ({
         setStatus(statusData);
       }
     });
-    Axios.get(SEPARATE_MENU_DETAILS + data).then((response) => {
+    axios.get(SEPARATE_MENU_DETAILS + data).then((response) => {
       if (response.status === 200) {
         let data = response.data.data;
         // Food Type

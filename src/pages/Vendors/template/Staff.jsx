@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Axios,
   NoDataFound,
   Pagination,
   ValidationMessage,
@@ -16,6 +15,7 @@ import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
 import { ROLES_STAFF, VALIDATION_ERROR } from "../../../constant/constant";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const Staff = () => {
   // ## State Variable Declaration
@@ -31,7 +31,7 @@ const Staff = () => {
   });
 
   const createStaff = () => {
-    Axios.post(CREATE_STAFF, form)
+    axios.post(CREATE_STAFF, form)
       .then((response) => {
         if (response.status === 201 && response.data.status) {
           toast.success(response.data.msg);
@@ -53,7 +53,7 @@ const Staff = () => {
   };
 
   const setStaffActive = (id) => {
-    Axios.get(STAFF_ACTIVE + id).then((response) => {
+    axios.get(STAFF_ACTIVE + id).then((response) => {
       if (response.status === 200 && response.data.status) {
         toast.success(response.data.msg);
         setCount(count + 1);
@@ -62,7 +62,7 @@ const Staff = () => {
   };
 
   const setStaffInActive = (id) => {
-    Axios.get(STAFF_INACTIVE + id).then((response) => {
+    axios.get(STAFF_INACTIVE + id).then((response) => {
       if (response.status === 200 && response.data.status) {
         toast.success(response.data.msg);
         setCount(count + 1);
@@ -71,7 +71,7 @@ const Staff = () => {
   };
 
   useEffect(() => {
-    Axios.get(STAFF_LIST + `${id}?page=${page}`).then((response) => {
+    axios.get(STAFF_LIST + `${id}?page=${page}`).then((response) => {
       if (
         response.status === 200 &&
         response.data.status &&

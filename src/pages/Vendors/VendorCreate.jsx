@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  Axios,
   ValidationMessage,
   frameDataOptions,
 } from "../../components/Utils";
@@ -15,6 +14,7 @@ import { ACCOUNT_TYPE } from "../../constant/constant";
 import { toast } from "react-toastify";
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
+import axios from "axios";
 
 const VendorCreate = () => {
   const [form, setForm] = useState({});
@@ -27,7 +27,7 @@ const VendorCreate = () => {
    * @param {*} callback
    */
   const loadOptions = (inputValue, callback) => {
-    Axios.get(GOOGLE_LOCATION + `?place=${inputValue}`)
+    axios.get(GOOGLE_LOCATION + `?place=${inputValue}`)
       .then((res) => {
         let data = res.data;
         let options = [];
@@ -54,7 +54,7 @@ const VendorCreate = () => {
         address_line: requestBody.address_line.label,
         place_id: requestBody.address_line.value,
       };
-    Axios.post(CREATE_VENDOR, requestBody)
+    axios.post(CREATE_VENDOR, requestBody)
       .then((res) => {
         console.log(res);
         if (res.status === 201 && res.data.status) {
@@ -72,7 +72,7 @@ const VendorCreate = () => {
 
   const getLatLng = (id) => {
     console.log(id);
-    Axios.get(GET_LAT_LNG + "?place_id=" + id).then((res) => {
+    axios.get(GET_LAT_LNG + "?place_id=" + id).then((res) => {
       setForm((prevForm) => ({
         ...prevForm,
         latitude: res.data.results[0].geometry.location.lat,
@@ -82,7 +82,7 @@ const VendorCreate = () => {
   };
 
   useEffect(() => {
-    Axios.get(SUBMODULES + ACCOUNT_TYPE).then((response) => {
+    axios.get(SUBMODULES + ACCOUNT_TYPE).then((response) => {
       if (response.status === 200 && response.data.data.length > 0) {
         let data = frameDataOptions(response.data.data, "id", "module_name");
         setAccountType(data);

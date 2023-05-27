@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Axios, Pagination, frameDataOptions } from "../../../components/Utils";
+import {
+  NoDataFound,
+  Pagination,
+  frameDataOptions,
+} from "../../../components/Utils";
 import {
   CATEGORIES_LIST,
   INGREDIANT_DROPDOWN,
@@ -12,6 +16,7 @@ import { DROPDOWN, FOOD_TYPE } from "../../../constant/constant";
 import { toast } from "react-toastify";
 import MenuCreateModal from "../modals/MenuCreateModal";
 import MenuEditModal from "../modals/MenuEditModal";
+import axios from "axios";
 
 const Menus = () => {
   // ## State Variable Declaration
@@ -28,7 +33,7 @@ const Menus = () => {
   const { id } = useParams();
 
   const approveMenu = (id) => {
-    Axios.put(MENU_APPROVE + id, {
+    axios.put(MENU_APPROVE + id, {
       status: "MS02",
     }).then((response) => {
       if (response.status === 200 && response.data.status) {
@@ -45,7 +50,7 @@ const Menus = () => {
 
   useEffect(() => {
     // Menu List
-    Axios.get(VENDOR_BASED_MENU_LIST + `${id}?page=${page}`).then(
+    axios.get(VENDOR_BASED_MENU_LIST + `${id}?page=${page}`).then(
       (response) => {
         if (
           response.status === 200 &&
@@ -65,7 +70,7 @@ const Menus = () => {
       }
     );
     // Food Type
-    Axios.get(SUBMODULES + FOOD_TYPE).then((response) => {
+    axios.get(SUBMODULES + FOOD_TYPE).then((response) => {
       if (response.status === 200) {
         setType(
           frameDataOptions(response.data.data, "module_code", "module_name")
@@ -73,14 +78,14 @@ const Menus = () => {
       }
     });
     // Category
-    Axios.get(CATEGORIES_LIST + `?type=${DROPDOWN}`).then((response) => {
+    axios.get(CATEGORIES_LIST + `?type=${DROPDOWN}`).then((response) => {
       if (response.status === 200) {
         setCategory(frameDataOptions(response.data.data, "id", "name"));
       }
     });
 
     // Ingrediants
-    Axios.get(INGREDIANT_DROPDOWN).then((response) => {
+    axios.get(INGREDIANT_DROPDOWN).then((response) => {
       if (response.status === 200) {
         setIngrediant(response.data.data);
       }
@@ -107,7 +112,66 @@ const Menus = () => {
               <span className="tf-icons bx bx-plus"></span>&nbsp; Add
             </button>
           </div>
-          <div className="col-md-12">
+          <div className="table-responsive text-nowrap">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Food Type</th>
+                  <th>Price</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody className="table-border-bottom-0">
+                {data.length > 0 ? (
+                  data.map((menu, i) => (
+                    <tr key={i}>
+                      <td>
+                        {!menu.approved ? (
+                          <span
+                            onClick={() => approveMenu(menu.id)}
+                            className="badge bg-label-info me-1"
+                            data-bs-toggle="tooltip"
+                            data-bs-offset="0,4"
+                            data-bs-placement="top"
+                            data-bs-html="true"
+                            title=""
+                            data-bs-original-title="Approve"
+                          >
+                            <i className="bx bx-check"></i>
+                          </span>
+                        ) : ""}
+                        <span
+                          onClick={() => openEditMenuModal(menu.id)}
+                          className="badge bg-label-success me-1"
+                          data-bs-toggle="tooltip"
+                          data-bs-offset="0,4"
+                          data-bs-placement="top"
+                          data-bs-html="true"
+                          title=""
+                          data-bs-original-title="Edit"
+                        >
+                          <i className="bx bx-pencil"></i>
+                        </span>
+                      </td>
+                      <td>{menu.name}</td>
+                      <td>{menu.category}</td>
+                      <td>{menu.food_type}</td>
+                      <td>{menu.price}</td>
+                      <td>{menu.description}</td>
+                      <td>{menu.status}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <NoDataFound front="2" back="2" message="No Data Found" />
+                )}
+              </tbody>
+            </table>
+          </div>
+          {/* <div className="col-md-12">
             <div className="row">
               {data.length > 0 ? (
                 data.map((menu, i) => (
@@ -163,7 +227,7 @@ const Menus = () => {
                 <div className="text-center mb-5">No Menu Founded</div>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
         {data.length > 0 && (
           <Pagination paginator={paginator} page={(no) => setPage(no)} />

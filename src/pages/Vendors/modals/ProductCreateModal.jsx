@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import Modal from "react-bootstrap/Modal";
-import { Axios, ValidationMessage } from '../../../components/Utils'
+import { ValidationMessage } from '../../../components/Utils'
 import { useParams } from 'react-router-dom';
 import { CREATE_PRODUCT } from '../../../routes/routes';
 import { toast } from 'react-toastify';
 import { VALIDATION_ERROR } from '../../../constant/constant';
 import { Image } from 'react-bootstrap';
+import axios from 'axios';
 
 const ProductCreateModal = ({ createProductModal, setCreateProductModal, count, setCount }) => {
     const { id } = useParams();
@@ -20,7 +21,7 @@ const ProductCreateModal = ({ createProductModal, setCreateProductModal, count, 
      * @createProduct
      */
     const createProduct = () => {
-        Axios.post(CREATE_PRODUCT, form).then((response) => {
+        axios.post(CREATE_PRODUCT, form).then((response) => {
             if (response.status === 201 && response.data.status) {
                 toast.success(response.data.msg);
                 setCount(count + 1);

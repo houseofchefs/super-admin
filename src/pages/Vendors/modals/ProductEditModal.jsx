@@ -1,6 +1,5 @@
 import Modal from "react-bootstrap/Modal";
 import {
-  Axios,
   ValidationMessage,
   frameDataOptions,
 } from "../../../components/Utils";
@@ -11,6 +10,7 @@ import { CREATE_PRODUCT, SUBMODULES } from "../../../routes/routes";
 import { STATUS, VALIDATION_ERROR } from "../../../constant/constant";
 import Select from "react-select";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const ProductEditModal = ({
   editProductModal,
@@ -36,7 +36,7 @@ const ProductEditModal = ({
     ) {
       requestBody = { ...requestBody, status: requestBody.status.value };
     }
-    Axios.put(CREATE_PRODUCT + `/${data.id}`, requestBody)
+    axios.put(CREATE_PRODUCT + `/${data.id}`, requestBody)
       .then((response) => {
         if (response.status === 200 && response.data.status) {
           toast.success(response.data.msg);
@@ -60,7 +60,7 @@ const ProductEditModal = ({
   };
 
   useEffect(() => {
-    Axios.get(SUBMODULES + STATUS).then((response) => {
+    axios.get(SUBMODULES + STATUS).then((response) => {
       if (response.status === 200) {
         let statusData = frameDataOptions(
           response.data.data,

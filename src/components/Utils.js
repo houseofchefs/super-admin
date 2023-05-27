@@ -1,7 +1,5 @@
-import axios from "axios";
 import React from "react";
 import { Navigate, Outlet, Route } from "react-router-dom";
-import { baseUrl } from "../routes/routes";
 import { ACTIVE } from "../constant/constant";
 
 /**
@@ -41,18 +39,6 @@ export const ValidationMessage = ({ error, name }) => {
   }
   return <span className="text-danger">{message}</span>;
 };
-
-/**
- * ## set default config for axios
- */
-export const Axios = axios.create({
-  baseURL: baseUrl,
-  headers: {
-    common: {
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  },
-});
 
 /**
  * ## Pagination Component

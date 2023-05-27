@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Axios } from "../../components/Utils";
 import { CATEGORIES_LIST } from "../../routes/routes";
+import axios from "axios";
 
 const CategoriesView = () => {
   // ## State Declartion
@@ -10,7 +10,7 @@ const CategoriesView = () => {
 
   // ## Component Mount
   useEffect(() => {
-    Axios.get(CATEGORIES_LIST + `/${params.id}/edit`).then((response) => {
+    axios.get(CATEGORIES_LIST + `/${params.id}/edit`).then((response) => {
       if (
         response.status === 200 &&
         response.data.status &&

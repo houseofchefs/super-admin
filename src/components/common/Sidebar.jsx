@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, matchPath, useLocation } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
+import { useEffect } from "react";
 
 const Sidebar = () => {
   const closeDrawer = () => {
@@ -7,6 +8,28 @@ const Sidebar = () => {
     html.classList.remove("layout-menu-expanded");
   };
 
+  const isParentPath = (url) =>
+    matchPath(url, window.location.pathname) != null;
+  const location = useLocation();
+  /**
+   * #sidebar list active
+   * @returns boolean
+   */
+  const vendorRoutes = () =>
+    isParentPath("/vendors") || isParentPath("vendor/:id/view");
+
+  /**
+   * #sidebar list active
+   * @returns boolean
+   */
+  const categoryRoutes = () =>
+    isParentPath("/categories") ||
+    isParentPath("categories/:id/view") ||
+    isParentPath("categories/:id/edit");
+
+  const dashboardRoute = () => isParentPath("/");
+
+  useEffect(() => {}, [location]);
   return (
     <aside
       id="layout-menu"
@@ -30,7 +53,7 @@ const Sidebar = () => {
       <div className="menu-inner-shadow"></div>
 
       <ul className="menu-inner py-1">
-        <li className="menu-item">
+        <li className={dashboardRoute() ? "menu-item active" : "menu-item"}>
           <Link className="menu-link" to="/">
             <i className="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Dashboard</div>
@@ -42,13 +65,13 @@ const Sidebar = () => {
             <div data-i18n="Analytics">Banner</div>
           </a>
         </li>
-        <li className={"menu-item"}>
+        <li className={vendorRoutes() ? "menu-item active" : "menu-item"}>
           <Link className={"menu-link"} to="vendors">
             <i className="menu-icon tf-icons bx bx-group"></i>
             <div data-i18n="Analytics">Vendors</div>
           </Link>
         </li>
-        <li className={"menu-item"}>
+        <li className={categoryRoutes() ? "menu-item active" : "menu-item"}>
           <Link className="menu-link" to="categories">
             <i className="menu-icon tf-icons bx bx-hive"></i>
             <div data-i18n="Analytics">Category</div>

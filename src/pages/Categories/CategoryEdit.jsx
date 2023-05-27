@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import {
-  Axios,
   ValidationMessage,
   frameDataOptions,
   pluckValue,
@@ -19,6 +18,7 @@ import {
 } from "../../constant/constant";
 import { toast } from "react-toastify";
 import Select from "react-select";
+import axios from "axios";
 
 const CategoryEdit = () => {
   // Declaring State Variable
@@ -46,7 +46,7 @@ const CategoryEdit = () => {
     if (requestBody.vendor_id != null)
       requestBody = { ...requestBody, vendor_id: requestBody.vendor_id.value };
 
-    Axios.put(CATEGORIES_LIST + `/${params.id}`, requestBody)
+    axios.put(CATEGORIES_LIST + `/${params.id}`, requestBody)
       .then((res) => {
         if (res.status === 200 && res.data.status) {
           toast.success(CATEGORIES_UPDATED);
@@ -73,7 +73,7 @@ const CategoryEdit = () => {
         let name = null;
         let selectedVendor = {};
         // Fetch detail API
-        const detailResponse = await Axios.get(
+        const detailResponse = await axios.get(
           CATEGORIES_LIST + `/${params.id}/edit`
         );
         if (
@@ -89,7 +89,7 @@ const CategoryEdit = () => {
         }
 
         // Fetch Time Slot API
-        const timeSlotResponse = await Axios.get(SUBMODULES + SLOTS);
+        const timeSlotResponse = await axios.get(SUBMODULES + SLOTS);
         if (
           timeSlotResponse.status === 200 &&
           timeSlotResponse.data.data.length > 0
@@ -106,7 +106,7 @@ const CategoryEdit = () => {
         }
 
         // Fetch Status API
-        const statusResponse = await Axios.get(SUBMODULES + STATUS);
+        const statusResponse = await axios.get(SUBMODULES + STATUS);
         if (
           statusResponse.status === 200 &&
           statusResponse.data.data.length > 0
@@ -132,7 +132,7 @@ const CategoryEdit = () => {
       }
     };
 
-    Axios.get(VENDOR_DROPDOWN).then((res) => {
+    axios.get(VENDOR_DROPDOWN).then((res) => {
       if (res.status === 200 && res.data.status) {
         setVendor([{ label: "All", value: 0 }].concat(res.data.data));
       }

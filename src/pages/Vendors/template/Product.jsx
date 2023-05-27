@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Axios, Pagination } from "../../../components/Utils";
+import { NoDataFound, Pagination, setBadgeClass } from "../../../components/Utils";
 import { PRODUCT_LIST } from "../../../routes/routes";
 import { useParams } from "react-router-dom";
 
 import { toast } from "react-toastify";
 import ProductCreateModal from "../modals/ProductCreateModal";
 import ProductEditModal from "../modals/ProductEditModal";
+import axios from "axios";
 
 const Product = () => {
   // ## State Variable Declaration
@@ -19,7 +20,7 @@ const Product = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    Axios.get(PRODUCT_LIST + `${id}?page=${page}`)
+    axios.get(PRODUCT_LIST + `${id}?page=${page}`)
       .then((response) => {
         if (
           response.status === 200 &&
@@ -57,7 +58,59 @@ const Product = () => {
             <span className="tf-icons bx bx-plus"></span>&nbsp; Add
           </button>
         </div>
-        <div className="col-md-12">
+        <div className="table-responsive text-nowrap">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Name</th>
+                <th>Units</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody className="table-border-bottom-0">
+              {data.length > 0 ? (
+                data.map((product, i) => (
+                  <tr key={i}>
+                    <td>
+                      <span
+                        onClick={() => {
+                          setEditProductModal(true);
+                          setProductDetail(product);
+                        }}
+                        className="badge bg-label-success me-1"
+                        data-bs-toggle="tooltip"
+                        data-bs-offset="0,4"
+                        data-bs-placement="top"
+                        data-bs-html="true"
+                        title=""
+                        data-bs-original-title="Edit"
+                      >
+                        <i className="bx bx-pencil"></i>
+                      </span>
+                    </td>
+                    <td>{product.name}</td>
+                    <td>{product.units}</td>
+                    <td>{product.price}</td>
+                    <td>{product.description}</td>
+                    <td>
+                      <span
+                        className={setBadgeClass(product?.status?.module_name)}
+                      >
+                        {product?.status?.module_name}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <NoDataFound front="2" back="2" message="No Data Found" />
+              )}
+            </tbody>
+          </table>
+        </div>
+        {/* <div className="col-md-12">
           <div className="row">
             {data.length > 0 ? (
               data.map((product, i) => (
@@ -97,7 +150,7 @@ const Product = () => {
               <div className="text-center mb-5">No Product Founded</div>
             )}
           </div>
-        </div>
+        </div> */}
         {data.length > 0 && (
           <Pagination paginator={paginator} page={(no) => setPage(no)} />
         )}

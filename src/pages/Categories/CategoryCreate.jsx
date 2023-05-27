@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  Axios,
   ValidationMessage,
   frameDataOptions,
   pluckValue,
@@ -18,6 +17,7 @@ import {
 } from "../../constant/constant";
 import { toast } from "react-toastify";
 import Select from "react-select";
+import axios from "axios";
 
 const CategoryCreate = () => {
   // Declaring State Variable
@@ -42,7 +42,7 @@ const CategoryCreate = () => {
         ...requestBody,
         vendor_id: requestBody.vendor_id.value,
       };
-    Axios.post(CATEGORIES_LIST, requestBody)
+    axios.post(CATEGORIES_LIST, requestBody)
       .then((res) => {
         if (res.status === 201 && res.data.status) {
           toast.success(CATEGORIES_CREATED);
@@ -62,13 +62,13 @@ const CategoryCreate = () => {
    * Component Mount
    */
   useEffect(() => {
-    Axios.get(SUBMODULES + SLOTS).then((res) => {
+    axios.get(SUBMODULES + SLOTS).then((res) => {
       if (res.status === 200 && res.data.data.length > 0) {
         let data = frameDataOptions(res.data.data, "id", "module_name");
         setSlots(data);
       }
     });
-    Axios.get(VENDOR_DROPDOWN).then((res) => {
+    axios.get(VENDOR_DROPDOWN).then((res) => {
       setVendor([{ label: "All", value: 0 }].concat(res.data.data));
     });
   }, []);

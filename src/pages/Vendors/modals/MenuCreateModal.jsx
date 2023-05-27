@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
 import { useParams } from 'react-router-dom';
-import { Axios, ValidationMessage, pluckValue } from '../../../components/Utils';
+import { ValidationMessage, pluckValue } from '../../../components/Utils';
 import { VALIDATION_ERROR, WEEK_DAYS } from '../../../constant/constant';
 import { CREATE_MENU } from '../../../routes/routes';
 import { toast } from 'react-toastify';
 import { Image } from 'react-bootstrap';
+import axios from 'axios';
 
 const MenuCreateModal = ({ createMenuModal, setCreateMenuModal, type, category, ingrediant, count, setCount }) => {
     const { id } = useParams();
@@ -38,7 +39,7 @@ const MenuCreateModal = ({ createMenuModal, setCreateMenuModal, type, category, 
             requestBody = { ...requestBody, days: pluckValue(form.days) };
         else requestBody = { ...requestBody, days: [] };
 
-        Axios.post(CREATE_MENU, requestBody)
+        axios.post(CREATE_MENU, requestBody)
             .then((response) => {
                 if (response.status === 201 && response.data.status) {
                     toast.success(response.data.msg);

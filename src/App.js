@@ -6,11 +6,7 @@ import "./assets/css/auth.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/css/style.css";
 import { ToastContainer } from "react-toastify";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Layout from "./components/common/Layout";
 import CategoryCreate from "./pages/Categories/CategoryCreate";

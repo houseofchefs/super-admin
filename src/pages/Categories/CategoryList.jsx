@@ -4,11 +4,11 @@ import { CATEGORIES_LIST } from "../../routes/routes";
 import { INTERNAL_SERVER_ERROR, PAGINATE } from "../../constant/constant";
 import { toast } from "react-toastify";
 import {
-  Axios,
   NoDataFound,
   Pagination,
   setBadgeClass,
 } from "../../components/Utils";
+import axios from "axios";
 
 const CategoryList = () => {
   // ## State Variable Declaration
@@ -21,7 +21,7 @@ const CategoryList = () => {
    */
   useEffect(() => {
     const fetchData = async () => {
-      let api = await Axios;
+      let api = await axios;
       api
         .get(CATEGORIES_LIST + `?type=${PAGINATE}&page=${page}`)
         .then((response) => {

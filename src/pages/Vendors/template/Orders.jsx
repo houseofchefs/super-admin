@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Axios, NoDataFound, Pagination } from "../../../components/Utils";
+import { NoDataFound, Pagination } from "../../../components/Utils";
 import { ORDER_LIST, ORDER_NEXT_ACTION } from "../../../routes/routes";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const Orders = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const Orders = () => {
   const [count, setCount] = useState(0);
 
   const nextAction = (id, code) => {
-    Axios.get(ORDER_NEXT_ACTION + `${id}/${code}`).then((response) => {
+    axios.get(ORDER_NEXT_ACTION + `${id}/${code}`).then((response) => {
       if (response.status === 200 && response.data.status) {
         toast.success(response.data.msg);
         setDetailModal(false);
@@ -26,7 +27,7 @@ const Orders = () => {
   };
 
   useEffect(() => {
-    Axios.get(ORDER_LIST + `${id}/${code}?page=${page}`)
+    axios.get(ORDER_LIST + `${id}/${code}?page=${page}`)
       .then((response) => {
         if (
           response.status === 200 &&
@@ -305,7 +306,7 @@ const Orders = () => {
                             Payment Method
                           </label>
                           <span className="d-block font-weight-600">
-                            {detailData?.payments?.method?.module_name}
+                            {detailData?.payments?.payment_method}
                           </span>
                         </div>
                       </div>

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Axios } from "../../../components/Utils";
 import { useParams } from "react-router-dom";
 import { VENDOR_DETAILs } from "../../../routes/routes";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const BasicDetails = () => {
   const [data, setData] = useState({});
   const { id } = useParams();
   useEffect(() => {
-    Axios.get(VENDOR_DETAILs + id).then((res) => {
+    axios.get(VENDOR_DETAILs + id).then((res) => {
       if (res.status === 200 && res.data.status) {
         setData(res.data.data);
       }

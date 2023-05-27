@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Axios,
-  NoDataFound,
-  Pagination,
-  setBadgeClass,
-} from "../../components/Utils";
+import { NoDataFound, Pagination, setBadgeClass } from "../../components/Utils";
 import { VENDORLIST } from "../../routes/routes";
+import axios from "axios";
 
 const VendorList = () => {
   // ## State Variable Declaration
@@ -16,8 +12,7 @@ const VendorList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let api = await Axios;
-      api.get(VENDORLIST + `?page=${page}`).then((response) => {
+      axios.get(VENDORLIST + `?page=${page}`).then((response) => {
         if (
           response.status === 200 &&
           response.data.status &&
