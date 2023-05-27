@@ -19,29 +19,35 @@ import VendorDetails from "./pages/Vendors/VendorDetails";
 import DiscountList from "./pages/Discount/DiscountList";
 import PrivateRoute from "./components/common/PrivateRoute";
 import LoginPage from "./pages/Login/LoginPage";
+import ApplicationProvider from "./context/ApplicationProvider";
 
 function App() {
   return (
     <>
-      <ToastContainer autoClose={800} />
-      <Router>
-        <Routes>
-          <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Layout />}>
-              <Route index path="/" element={<Dashboard />} />
-              <Route path="/categories" element={<CategoryList />} />
-              <Route path="/categories/create" element={<CategoryCreate />} />
-              <Route path="/categories/:id/view" element={<CategoriesView />} />
-              <Route path="/categories/:id/edit" element={<CategoryEdit />} />
-              <Route path="/vendors" element={<VendorList />} />
-              <Route path="/vendor/create" element={<VendorCreate />} />
-              <Route path="/vendor/:id/view" element={<VendorDetails />} />
-              <Route path="/discounts" element={<DiscountList />} />
+      <ApplicationProvider>
+        <ToastContainer autoClose={800} />
+        <Router>
+          <Routes>
+            <Route element={<PrivateRoute />}>
+              <Route path="/" element={<Layout />}>
+                <Route index path="/" element={<Dashboard />} />
+                <Route path="/categories" element={<CategoryList />} />
+                <Route path="/categories/create" element={<CategoryCreate />} />
+                <Route
+                  path="/categories/:id/view"
+                  element={<CategoriesView />}
+                />
+                <Route path="/categories/:id/edit" element={<CategoryEdit />} />
+                <Route path="/vendors" element={<VendorList />} />
+                <Route path="/vendor/create" element={<VendorCreate />} />
+                <Route path="/vendor/:id/view" element={<VendorDetails />} />
+                <Route path="/discounts" element={<DiscountList />} />
+              </Route>
             </Route>
-          </Route>
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
-      </Router>
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+        </Router>
+      </ApplicationProvider>
     </>
   );
 }
