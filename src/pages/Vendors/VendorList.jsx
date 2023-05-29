@@ -59,10 +59,31 @@ const VendorList = () => {
                 <tr key={i}>
                   <td>
                     <Link to={`/vendor/${vendor.id}/view`}>
-                      <span className="badge bg-label-success me-1">
+                      <button
+                        className="badge bg-label-info me-1 border-0"
+                        data-bs-toggle="tooltip"
+                        data-bs-offset="0,4"
+                        data-bs-placement="top"
+                        data-bs-html="true"
+                        title="View"
+                        data-bs-original-title="View"
+                      >
                         <i className="bx bx-show"></i>
-                      </span>
+                      </button>
                     </Link>
+                    {/* <Link to={`/vendor/${vendor.id}/edit`}>
+                      <button
+                        className="badge bg-label-success me-1 border-0"
+                        data-bs-toggle="tooltip"
+                        data-bs-offset="0,4"
+                        data-bs-placement="top"
+                        data-bs-html="true"
+                        title="Edit"
+                        data-bs-original-title="Edit"
+                      >
+                        <i className="bx bx-pencil"></i>
+                      </button>
+                    </Link> */}
                   </td>
                   <td>{vendor.name}</td>
                   <td>{vendor.mobile}</td>

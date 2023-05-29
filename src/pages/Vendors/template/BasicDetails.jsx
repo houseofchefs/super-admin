@@ -1,21 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { VENDOR_DETAILs } from "../../../routes/routes";
-import { toast } from "react-toastify";
-import axios from "axios";
-
-const BasicDetails = () => {
-  const [data, setData] = useState({});
-  const { id } = useParams();
-  useEffect(() => {
-    axios.get(VENDOR_DETAILs + id).then((res) => {
-      if (res.status === 200 && res.data.status) {
-        setData(res.data.data);
-      }
-    }).catch(error => {
-      toast.error("Server Error")
-    });
-  }, [id]);
+const BasicDetails = ({ data }) => {
   return (
     <div
       className="tab-pane fade active show"
@@ -61,6 +44,45 @@ const BasicDetails = () => {
                   </label>
                   <span className="d-block font-weight-600">
                     {data?.mobile}
+                  </span>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="mb-3">
+                  <label
+                    className="form-label m-0"
+                    htmlFor="basic-default-mobile"
+                  >
+                    Open Time
+                  </label>
+                  <span className="d-block font-weight-600">
+                    {data?.open_time}
+                  </span>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="mb-3">
+                  <label
+                    className="form-label m-0"
+                    htmlFor="basic-default-mobile"
+                  >
+                    Close Time
+                  </label>
+                  <span className="d-block font-weight-600">
+                    {data?.close_time}
+                  </span>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="mb-3">
+                  <label
+                    className="form-label m-0"
+                    htmlFor="basic-default-mobile"
+                  >
+                    Order Accept Time
+                  </label>
+                  <span className="d-block font-weight-600">
+                    {data?.order_accept_time}
                   </span>
                 </div>
               </div>

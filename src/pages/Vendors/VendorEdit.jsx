@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  ValidationMessage,
-  frameDataOptions,
-} from "../../components/Utils";
+import { ValidationMessage, frameDataOptions } from "../../components/Utils";
 import {
   CREATE_VENDOR,
   GET_LAT_LNG,
@@ -16,7 +13,7 @@ import AsyncSelect from "react-select/async";
 import Select from "react-select";
 import axios from "axios";
 
-const VendorCreate = () => {
+const VendorEdit = () => {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
   const [accountType, setAccountType] = useState([]);
@@ -27,7 +24,8 @@ const VendorCreate = () => {
    * @param {*} callback
    */
   const loadOptions = (inputValue, callback) => {
-    axios.get(GOOGLE_LOCATION + `?place=${inputValue}`)
+    axios
+      .get(GOOGLE_LOCATION + `?place=${inputValue}`)
       .then((res) => {
         let data = res.data;
         let options = [];
@@ -54,7 +52,8 @@ const VendorCreate = () => {
         address_line: requestBody.address_line.label,
         place_id: requestBody.address_line.value,
       };
-    axios.post(CREATE_VENDOR, requestBody)
+    axios
+      .post(CREATE_VENDOR, requestBody)
       .then((res) => {
         console.log(res);
         if (res.status === 201 && res.data.status) {
@@ -114,7 +113,8 @@ const VendorCreate = () => {
                           className="form-label"
                           htmlFor="basic-default-fullname"
                         >
-                          Vendor / Kitchen Name<span className="text-danger">*</span>
+                          Vendor / Kitchen Name
+                          <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -214,7 +214,8 @@ const VendorCreate = () => {
                           className="form-label"
                           htmlFor="basic-default-mobile"
                         >
-                          Order Accept Time<span className="text-danger">*</span>
+                          Order Accept Time
+                          <span className="text-danger">*</span>
                         </label>
                         <input
                           type="time"
@@ -222,10 +223,16 @@ const VendorCreate = () => {
                           id="basic-default-mobile"
                           placeholder="Order Accept Time"
                           onChange={(e) =>
-                            setForm({ ...form, order_accept_time: e.target.value })
+                            setForm({
+                              ...form,
+                              order_accept_time: e.target.value,
+                            })
                           }
                         />
-                        <ValidationMessage error={errors} name="order_accept_time" />
+                        <ValidationMessage
+                          error={errors}
+                          name="order_accept_time"
+                        />
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -447,4 +454,4 @@ const VendorCreate = () => {
   );
 };
 
-export default VendorCreate;
+export default VendorEdit;

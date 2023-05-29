@@ -5,6 +5,8 @@ import { ORDER_LIST, ORDER_NEXT_ACTION } from "../../../routes/routes";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import axios from "axios";
+import moment from "moment";
+import "moment/locale/en-in";
 
 const Orders = () => {
   const { id } = useParams();
@@ -27,7 +29,8 @@ const Orders = () => {
   };
 
   useEffect(() => {
-    axios.get(ORDER_LIST + `${id}/${code}?page=${page}`)
+    axios
+      .get(ORDER_LIST + `${id}/${code}?page=${page}`)
       .then((response) => {
         if (
           response.status === 200 &&
@@ -131,23 +134,38 @@ const Orders = () => {
                 data.map((order, i) => (
                   <tr key={i}>
                     <td>
-                      <span
+                      <button
+                        data-bs-toggle="tooltip"
+                        data-bs-offset="0,4"
+                        data-bs-placement="top"
+                        data-bs-html="true"
+                        title="View"
+                        data-bs-original-title="View"
                         onClick={() => {
                           setDetailModal(true);
                           setDetailData(order);
                         }}
-                        className="badge bg-label-success me-1"
+                        className="badge bg-label-success me-1 border-0"
                       >
                         <i className="bx bx-show"></i>
-                      </span>
+                      </button>
                     </td>
                     <td>{order.order_no}</td>
                     <td>{order?.customers?.name}</td>
                     <td>{order?.item_count}</td>
                     <td>{order?.price}</td>
-                    <td>{order?.order_at}</td>
+                    <td>
+                      {moment
+                        .utc(order?.order_at)
+                        .local()
+                        .format("YYYY-MM-DD hh:mm A")}
+                    </td>
                     <td>{order?.instructions}</td>
-                    <td>{order?.payments?.method?.module_name}</td>
+                    <td>
+                      {order?.payments?.payment_method != null
+                        ? order?.payments?.payment_method
+                        : "NA"}
+                    </td>
                     <td>{order?.payments?.status?.module_name}</td>
                   </tr>
                 ))
@@ -342,14 +360,24 @@ const Orders = () => {
                 <div className="card-header d-flex justify-content-between align-items-center">
                   <h5 className="mb-0">Menu Details</h5>
                   {code === "OS01" && (
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-success rounded-pill"
-                      data-bs-dismiss="modal"
-                      onClick={() => nextAction(detailData.id, "OS02")}
-                    >
-                      Accept
-                    </button>
+                    <div>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-secondary me-2 rounded-pill"
+                        data-bs-dismiss="modal"
+                        onClick={() => nextAction(detailData.id, "OS03")}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-success rounded-pill"
+                        data-bs-dismiss="modal"
+                        onClick={() => nextAction(detailData.id, "OS02")}
+                      >
+                        Accept
+                      </button>
+                    </div>
                   )}
                   {code === "OS02" && (
                     <div>

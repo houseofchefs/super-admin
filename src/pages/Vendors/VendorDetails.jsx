@@ -1,17 +1,36 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import Menus from "./template/Menus";
 import BasicDetails from "./template/BasicDetails";
 import Product from "./template/Product";
 import Staff from "./template/Staff";
 import Orders from "./template/Orders";
+import axios from "axios";
+import { VENDOR_DETAILs } from "../../routes/routes";
+import { toast } from "react-toastify";
 
 const VendorDetails = () => {
+  const [data, setData] = useState({});
+  const { id } = useParams();
   const [tabView, setTabView] = useState("basic_details");
+
+  useEffect(() => {
+    axios
+      .get(VENDOR_DETAILs + id)
+      .then((res) => {
+        if (res.status === 200 && res.data.status) {
+          setData(res.data.data);
+        }
+      })
+      .catch((error) => {
+        toast.error("Server Error");
+      });
+  }, [id]);
   return (
     <div className="content-wrapper">
       <div className="container-xxl flex-grow-1 container-p-y">
-        <div className="demo-inline-spacing d-flex justify-content-end mb-3">
+        <div className="demo-inline-spacing d-flex justify-content-between align-items-center mb-3">
+          <h4 className="mb-0">{data?.name}</h4>
           <Link to={"/vendors"}>
             <button type="button" className="btn btn-dark rounded-pill">
               <i className="bx bx-exit"></i> back
@@ -103,10 +122,10 @@ const VendorDetails = () => {
                   >
                     Staff
                   </button>
-                </li>                
+                </li>
               </ul>
               <div className="tab-content">
-                {tabView === "basic_details" && <BasicDetails />}
+                {tabView === "basic_details" && <BasicDetails data={data} />}
                 {tabView === "menus" && <Menus />}
                 {tabView === "products" && <Product />}
                 {tabView === "staff" && <Staff />}

@@ -131,31 +131,32 @@ const Menus = () => {
                     <tr key={i}>
                       <td>
                         {!menu.approved ? (
-                          <span
+                          <button
                             onClick={() => approveMenu(menu.id)}
-                            className="badge bg-label-info me-1"
+                            className="badge bg-label-info me-1 border-0"
                             data-bs-toggle="tooltip"
                             data-bs-offset="0,4"
                             data-bs-placement="top"
                             data-bs-html="true"
-                            title=""
+                            title="Approve"
                             data-bs-original-title="Approve"
                           >
                             <i className="bx bx-check"></i>
-                          </span>
+                          </button>
                         ) : ""}
-                        <span
+                        
+                        <button
                           onClick={() => openEditMenuModal(menu.id)}
-                          className="badge bg-label-success me-1"
+                          className="badge bg-label-success me-1 border-0"
                           data-bs-toggle="tooltip"
                           data-bs-offset="0,4"
                           data-bs-placement="top"
                           data-bs-html="true"
-                          title=""
+                          title="Edit"
                           data-bs-original-title="Edit"
                         >
                           <i className="bx bx-pencil"></i>
-                        </span>
+                        </button>
                       </td>
                       <td>{menu.name}</td>
                       <td>{menu.category}</td>

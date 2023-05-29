@@ -75,21 +75,21 @@ const Product = () => {
                 data.map((product, i) => (
                   <tr key={i}>
                     <td>
-                      <span
+                      <button
                         onClick={() => {
                           setEditProductModal(true);
                           setProductDetail(product);
                         }}
-                        className="badge bg-label-success me-1"
+                        className="badge bg-label-success me-1 border-0"
                         data-bs-toggle="tooltip"
                         data-bs-offset="0,4"
                         data-bs-placement="top"
                         data-bs-html="true"
-                        title=""
+                        title="View"
                         data-bs-original-title="Edit"
                       >
                         <i className="bx bx-pencil"></i>
-                      </span>
+                      </button>
                     </td>
                     <td>{product.name}</td>
                     <td>{product.units}</td>

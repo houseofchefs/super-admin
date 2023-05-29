@@ -56,12 +56,15 @@ const MenuEditModal = ({
     else requestBody = { ...requestBody, days: [] };
     // status
     if (form.status != null && form.status.hasOwnProperty("value")) {
-        requestBody = { ...requestBody, isApproved: requestBody.status.label === "Approved" }
+      requestBody = {
+        ...requestBody,
+        isApproved: requestBody.status.label === "Approved",
+      };
       requestBody = { ...requestBody, status: requestBody.status.value };
-      
     }
 
-    axios.put(UPDATE_MENU + data, requestBody)
+    axios
+      .put(UPDATE_MENU + data, requestBody)
       .then((response) => {
         if (response.status === 200 && response.data.status) {
           toast.success(response.data.msg);
@@ -88,11 +91,7 @@ const MenuEditModal = ({
     let statusData = [];
     axios.get(SUBMODULES + MENU_STATUS).then((response) => {
       if (response.status === 200) {
-        statusData = frameDataOptions(
-          response.data.data,
-          "id",
-          "module_name"
-        );
+        statusData = frameDataOptions(response.data.data, "id", "module_name");
         setStatus(statusData);
       }
     });
@@ -251,6 +250,7 @@ const MenuEditModal = ({
               Min Quantity
             </label>
             <input
+              min="0"
               type="number"
               name="quantity"
               className="form-control"

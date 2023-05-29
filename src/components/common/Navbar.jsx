@@ -8,9 +8,9 @@ const NavBar = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    navigate('/login')
-  }
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <nav
       className="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme navbar-padding"
@@ -29,9 +29,22 @@ const NavBar = () => {
       >
         <ul className="navbar-nav flex-row align-items-center ms-auto">
           {/* User */}
-          <li onClick={() => logout()} className="nav-item navbar-dropdown dropdown-user dropdown">
+          <li
+            onClick={() => logout()}
+            className="nav-item navbar-dropdown dropdown-user dropdown"
+          >
             <div className="avatar avatar-online d-flex align-items-center">
-              <i className="bx bx-power-off ms-2 bx-sm"></i>
+              <button
+                className="border-0"
+                data-bs-toggle="tooltip"
+                data-bs-offset="0,4"
+                data-bs-placement="top"
+                data-bs-html="true"
+                title="Logout"
+                data-bs-original-title="Logout"
+              >
+                <i className="bx bx-power-off ms-2 bx-sm"></i>
+              </button>
             </div>
           </li>
         </ul>

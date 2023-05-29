@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 import { CATEGORIES_LIST } from "../../routes/routes";
 import { INTERNAL_SERVER_ERROR, PAGINATE } from "../../constant/constant";
 import { toast } from "react-toastify";
-import {
-  NoDataFound,
-  Pagination,
-  setBadgeClass,
-} from "../../components/Utils";
+import { NoDataFound, Pagination, setBadgeClass } from "../../components/Utils";
 import axios from "axios";
 
 const CategoryList = () => {
@@ -73,15 +69,23 @@ const CategoryList = () => {
               data.map((category, i) => (
                 <tr key={i}>
                   <td>
-                    <Link to={`/categories/${category.id}/view`}>
+                    {/* <Link to={`/categories/${category.id}/view`}>
                       <span className="badge bg-label-info me-1">
                         <i className="bx bx-show"></i>
                       </span>
-                    </Link>
+                    </Link> */}
                     <Link to={`/categories/${category.id}/edit`}>
-                      <span className="badge bg-label-success me-1">
+                      <button
+                        className="badge bg-label-success me-1 border-0"
+                        data-bs-toggle="tooltip"
+                        data-bs-offset="0,4"
+                        data-bs-placement="top"
+                        data-bs-html="true"
+                        title="Edit"
+                        data-bs-original-title="Edit"
+                      >
                         <i className="bx bx-pencil"></i>
-                      </span>
+                      </button>
                     </Link>
                   </td>
                   <td>{category?.name}</td>

@@ -214,7 +214,7 @@ const Staff = () => {
                 Password
               </label>
               <input
-                type="pwd"
+                type="password"
                 name="password"
                 className="form-control"
                 placeholder="*********"

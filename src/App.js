@@ -20,6 +20,7 @@ import DiscountList from "./pages/Discount/DiscountList";
 import PrivateRoute from "./components/common/PrivateRoute";
 import LoginPage from "./pages/Login/LoginPage";
 import ApplicationProvider from "./context/ApplicationProvider";
+import VendorEdit from "./pages/Vendors/VendorEdit";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/vendors" element={<VendorList />} />
                 <Route path="/vendor/create" element={<VendorCreate />} />
                 <Route path="/vendor/:id/view" element={<VendorDetails />} />
+                <Route path="/vendor/:id/edit" element={<VendorEdit />} />
                 <Route path="/discounts" element={<DiscountList />} />
               </Route>
             </Route>

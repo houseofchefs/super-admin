@@ -25,6 +25,7 @@ const Sidebar = () => {
   const categoryRoutes = () =>
     isParentPath("/categories") ||
     isParentPath("categories/:id/view") ||
+    isParentPath('categories/create') ||
     isParentPath("categories/:id/edit");
 
   const dashboardRoute = () => isParentPath("/");
