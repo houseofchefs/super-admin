@@ -17,8 +17,7 @@ const CategoryList = () => {
    */
   useEffect(() => {
     const fetchData = async () => {
-      let api = await axios;
-      api
+      axios
         .get(CATEGORIES_LIST + `?type=${PAGINATE}&page=${page}`)
         .then((response) => {
           if (

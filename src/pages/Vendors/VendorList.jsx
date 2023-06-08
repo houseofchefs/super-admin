@@ -71,7 +71,7 @@ const VendorList = () => {
                         <i className="bx bx-show"></i>
                       </button>
                     </Link>
-                    {/* <Link to={`/vendor/${vendor.id}/edit`}>
+                    <Link to={`/vendor/${vendor.id}/edit`}>
                       <button
                         className="badge bg-label-success me-1 border-0"
                         data-bs-toggle="tooltip"
@@ -83,7 +83,7 @@ const VendorList = () => {
                       >
                         <i className="bx bx-pencil"></i>
                       </button>
-                    </Link> */}
+                    </Link>
                   </td>
                   <td>{vendor.name}</td>
                   <td>{vendor.mobile}</td>

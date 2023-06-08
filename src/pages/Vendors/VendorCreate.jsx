@@ -71,7 +71,6 @@ const VendorCreate = () => {
   };
 
   const getLatLng = (id) => {
-    console.log(id);
     axios.get(GET_LAT_LNG + "?place_id=" + id).then((res) => {
       setForm((prevForm) => ({
         ...prevForm,

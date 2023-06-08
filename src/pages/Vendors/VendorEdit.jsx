@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ValidationMessage, frameDataOptions } from "../../components/Utils";
 import {
-  CREATE_VENDOR,
   GET_LAT_LNG,
   GOOGLE_LOCATION,
   SUBMODULES,
+  VENDOR_DETAILs,
 } from "../../routes/routes";
-import { ACCOUNT_TYPE } from "../../constant/constant";
+import { ACCOUNT_TYPE, STATUS } from "../../constant/constant";
 import { toast } from "react-toastify";
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
 import axios from "axios";
 
 const VendorEdit = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
   const [accountType, setAccountType] = useState([]);
-  const navigate = useNavigate();
+  const [status, setStatus] = useState([]);
 
   /**   *
    * @param {*} inputValue
@@ -45,6 +47,7 @@ const VendorEdit = () => {
    * form submit API's call
    */
   const createVendor = () => {
+    console.log(form);
     let requestBody = { ...form };
     if (requestBody.address_line != null)
       requestBody = {
@@ -52,8 +55,17 @@ const VendorEdit = () => {
         address_line: requestBody.address_line.label,
         place_id: requestBody.address_line.value,
       };
+
+    if (requestBody.status != null)
+      requestBody = { ...requestBody, status: requestBody.status.value };
+    if (requestBody.account_type != null)
+      requestBody = {
+        ...requestBody,
+        account_type: requestBody.account_type.value,
+      };
+      console.log(requestBody);
     axios
-      .post(CREATE_VENDOR, requestBody)
+      .put(VENDOR_DETAILs + id, requestBody)
       .then((res) => {
         console.log(res);
         if (res.status === 201 && res.data.status) {
@@ -87,7 +99,49 @@ const VendorEdit = () => {
         setAccountType(data);
       }
     });
-  }, []);
+
+    axios.get(VENDOR_DETAILs + id).then((response) => {
+      if (response.status === 200 && response.data.data) {
+        let data = response.data.data;
+        setForm({
+          name: data.name,
+          email: data.email,
+          mobile: data.mobile,
+          open_time: data.open_time,
+          close_time: data.close_time,
+          order_accept_time: data.order_accept_time,
+          gst_no: data.gst_no,
+          door_no: data?.address?.door_no,
+          lanmark: data?.address?.lanmark,
+          address_line: {
+            label: data?.address?.address_line,
+            value: data?.address?.place_id,
+          },
+          pincode: data?.address?.pincode,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          ifsc_code: data?.bank?.ifsc_code,
+          bank_name: data?.bank?.bank_name,
+          account_number: data?.bank?.account_number,
+          holder_name: data?.bank?.holder_name,
+          account_type: {
+            value: data?.bank?.account_type,
+            label: data?.bank?.type?.module_name,
+          },
+          status: { label: data?.status?.module_name, value: data?.status?.id },
+          bank_id: data?.bank?.id,
+          address_id: data?.address?.id,
+        });
+      }
+    });
+
+    axios.get(SUBMODULES + STATUS).then((res) => {
+      if (res.status === 200 && res.data.data.length > 0) {
+        let data = frameDataOptions(res.data.data, "id", "module_name");
+        setStatus(data);
+      }
+    });
+  }, [id]);
   return (
     <div className="content-wrapper">
       <div className="container-xxl flex-grow-1 container-p-y">
@@ -121,6 +175,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="basic-default-fullname"
                           placeholder="Name"
+                          defaultValue={form.name}
                           onChange={(e) =>
                             setForm({ ...form, name: e.target.value })
                           }
@@ -141,6 +196,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="basic-default-email"
                           placeholder="Email"
+                          defaultValue={form.email}
                           onChange={(e) =>
                             setForm({ ...form, email: e.target.value })
                           }
@@ -161,6 +217,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="basic-default-mobile"
                           placeholder="Mobile No"
+                          defaultValue={form.mobile}
                           onChange={(e) =>
                             setForm({ ...form, mobile: e.target.value })
                           }
@@ -181,6 +238,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="basic-default-mobile"
                           placeholder="Open TIme"
+                          defaultValue={form.open_time}
                           onChange={(e) =>
                             setForm({ ...form, open_time: e.target.value })
                           }
@@ -201,6 +259,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="basic-default-mobile"
                           placeholder="close_time"
+                          defaultValue={form.close_time}
                           onChange={(e) =>
                             setForm({ ...form, close_time: e.target.value })
                           }
@@ -222,6 +281,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="basic-default-mobile"
                           placeholder="Order Accept Time"
+                          defaultValue={form.order_accept_time}
                           onChange={(e) =>
                             setForm({
                               ...form,
@@ -248,6 +308,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="basic-default-gst-no"
                           placeholder="GST No"
+                          defaultValue={form.gst_no}
                           onChange={(e) =>
                             setForm({ ...form, gst_no: e.target.value })
                           }
@@ -267,6 +328,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="basic-default-door-no"
                           placeholder="Door No"
+                          defaultValue={form.door_no}
                           onChange={(e) =>
                             setForm({ ...form, door_no: e.target.value })
                           }
@@ -284,6 +346,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="lan-mark"
                           placeholder="Landmark"
+                          defaultValue={form.lanmark}
                           onChange={(e) =>
                             setForm({ ...form, lanmark: e.target.value })
                           }
@@ -325,11 +388,30 @@ const VendorEdit = () => {
                           className="form-control"
                           id="pincode"
                           placeholder="Pincode"
+                          defaultValue={form.pincode}
                           onChange={(e) =>
                             setForm({ ...form, pincode: e.target.value })
                           }
                         />
                         <ValidationMessage error={errors} name="pincode" />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <label
+                          className="form-label"
+                          htmlFor="basic-default-gst-no"
+                        >
+                          Status
+                        </label>
+                        <Select
+                          options={status}
+                          value={form.status}
+                          onChange={(selected) =>
+                            setForm({ ...form, status: selected })
+                          }
+                        />
+                        <ValidationMessage error={errors} name="status" />
                       </div>
                     </div>
                   </div>
@@ -351,6 +433,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="ifsc-code"
                           placeholder="IFSC Code"
+                          defaultValue={form.ifsc_code}
                           onChange={(e) =>
                             setForm({ ...form, ifsc_code: e.target.value })
                           }
@@ -368,6 +451,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="bank-name"
                           placeholder="Bank Name"
+                          defaultValue={form.bank_name}
                           onChange={(e) =>
                             setForm({ ...form, bank_name: e.target.value })
                           }
@@ -385,6 +469,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="account-no"
                           placeholder="Account No"
+                          defaultValue={form.account_number}
                           onChange={(e) =>
                             setForm({ ...form, account_number: e.target.value })
                           }
@@ -402,6 +487,7 @@ const VendorEdit = () => {
                         </label>
                         <Select
                           options={accountType}
+                          value={form.account_type}
                           onChange={(selected) =>
                             setForm({ ...form, account_type: selected.value })
                           }
@@ -419,6 +505,7 @@ const VendorEdit = () => {
                           className="form-control"
                           id="holder-name"
                           placeholder="Holder Name"
+                          defaultValue={form.holder_name}
                           onChange={(e) =>
                             setForm({ ...form, holder_name: e.target.value })
                           }

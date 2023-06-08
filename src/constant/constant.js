@@ -3,6 +3,8 @@ export const INTERNAL_SERVER_ERROR = "Internal Server Error";
 export const VALIDATION_ERROR = "Validation Error";
 export const CATEGORIES_CREATED = "Category Created Successfully!";
 export const CATEGORIES_UPDATED = "Category Updated Successfully!";
+export const CUSTOMER_CREATED = "Customer Created Successfully!";
+export const CUSTOMER_UPDATED = "Customer Updated Successfully!";
 // ## Constant Variable
 export const PAGINATE = "paginate";
 export const DROPDOWN = "dropdown";

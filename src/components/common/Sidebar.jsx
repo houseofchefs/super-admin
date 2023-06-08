@@ -16,7 +16,9 @@ const Sidebar = () => {
    * @returns boolean
    */
   const vendorRoutes = () =>
-    isParentPath("/vendors") || isParentPath("vendor/:id/view");
+    isParentPath("/vendors") ||
+    isParentPath("vendor/:id/view") ||
+    isParentPath("vendor/:id/edit");
 
   /**
    * #sidebar list active
@@ -25,10 +27,25 @@ const Sidebar = () => {
   const categoryRoutes = () =>
     isParentPath("/categories") ||
     isParentPath("categories/:id/view") ||
-    isParentPath('categories/create') ||
+    isParentPath("categories/create") ||
     isParentPath("categories/:id/edit");
 
   const dashboardRoute = () => isParentPath("/");
+
+  const customerRoutes = () =>
+    isParentPath("/customers") ||
+    isParentPath("/customer/create") ||
+    isParentPath("/customer/:id/edit");
+
+  const discountRoutes = () =>
+    isParentPath("/discounts") ||
+    isParentPath("/create/discount") ||
+    isParentPath("/discount/:id/edit");
+
+  const adminRoutes = () =>
+    isParentPath("/admin") ||
+    isParentPath("/create/admin") ||
+    isParentPath("/admin/:id/edit");
 
   useEffect(() => {}, [location]);
   return (
@@ -60,11 +77,11 @@ const Sidebar = () => {
             <div data-i18n="Analytics">Dashboard</div>
           </Link>
         </li>
-        <li className="menu-item">
-          <a href="/" className="menu-link">
+        <li className={adminRoutes() ? "menu-item active" : "menu-item"}>
+          <Link className="menu-link" to={"admin"}>
             <i className="menu-icon tf-icons bx bx-copy-alt"></i>
-            <div data-i18n="Analytics">Banner</div>
-          </a>
+            <div data-i18n="Analytics">Admin</div>
+          </Link>
         </li>
         <li className={vendorRoutes() ? "menu-item active" : "menu-item"}>
           <Link className={"menu-link"} to="vendors">
@@ -79,28 +96,32 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="menu-item">
-          <a href="/" className="menu-link">
+          <Link className="menu-link" to="orders">
             <i className="menu-icon tf-icons bx bx-home-smile"></i>
             <div data-i18n="Analytics">Orders</div>
-          </a>
+          </Link>
         </li>
-        <li className="menu-item">
-          <a href="/" className="menu-link">
+        <li className={customerRoutes() ? "menu-item active" : "menu-item"}>
+          <Link className="menu-link" to="customers">
             <i className="menu-icon tf-icons bx bx-user"></i>
             <div data-i18n="Analytics">Customers</div>
-          </a>
+          </Link>
         </li>
-        <li className="menu-item">
+        <li className={discountRoutes() ? "menu-item active" : "menu-item"}>
           <Link className="menu-link" to="discounts">
             <i className="menu-icon tf-icons bx bx-happy"></i>
             <div data-i18n="Analytics">Discount</div>
           </Link>
         </li>
-        <li className="menu-item">
-          <a href="/" className="menu-link">
+        <li
+          className={
+            isParentPath("/reviews") ? "menu-item active" : "menu-item"
+          }
+        >
+          <Link className="menu-link" to="reviews">
             <i className="menu-icon tf-icons bx bx-message-detail"></i>
             <div data-i18n="Analytics">Reviews</div>
-          </a>
+          </Link>
         </li>
       </ul>
     </aside>

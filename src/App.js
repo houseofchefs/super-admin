@@ -21,6 +21,17 @@ import PrivateRoute from "./components/common/PrivateRoute";
 import LoginPage from "./pages/Login/LoginPage";
 import ApplicationProvider from "./context/ApplicationProvider";
 import VendorEdit from "./pages/Vendors/VendorEdit";
+import CustomerList from "./pages/Customers/CustomerList";
+import CustomerCreate from "./pages/Customers/CustomerCreate";
+import CustomerEdit from "./pages/Customers/CustomerEdit";
+import CreateDiscount from "./pages/Discount/CreateDiscount";
+import EditDiscount from "./pages/Discount/EditDiscount";
+import AdminList from "./pages/Admin/AdminList";
+import CreateAdmin from "./pages/Admin/CreateAdmin";
+import EditAdmin from "./pages/Admin/EditAdmin";
+import ReviewList from "./pages/Reviews/ReviewList";
+import OrderList from "./pages/Orders/OrderList";
+import CreateOrder from "./pages/Orders/CreateOrder";
 
 function App() {
   return (
@@ -44,6 +55,17 @@ function App() {
                 <Route path="/vendor/:id/view" element={<VendorDetails />} />
                 <Route path="/vendor/:id/edit" element={<VendorEdit />} />
                 <Route path="/discounts" element={<DiscountList />} />
+                <Route path="/create/discount" element={<CreateDiscount />} />
+                <Route path="/discount/:id/edit" element={<EditDiscount />} />
+                <Route path="/customers" element={<CustomerList />} />
+                <Route path="/customer/create" element={<CustomerCreate />} />
+                <Route path="/customer/:id/edit" element={<CustomerEdit />} />
+                <Route path="/admin" element={<AdminList />} />
+                <Route path="/create/admin" element={<CreateAdmin />} />
+                <Route path="/admin/:id/edit" element={<EditAdmin />} />
+                <Route path="/reviews" element={<ReviewList />} />
+                {/* <Route path="/orders" element={<OrderList />} />
+                <Route path="/create/order" element={<CreateOrder />} /> */}
               </Route>
             </Route>
             <Route path="/login" element={<LoginPage />} />

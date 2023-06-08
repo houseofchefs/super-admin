@@ -1,22 +1,22 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { ADMIN_LIST } from "../../routes/routes";
+import { NoDataFound, Pagination } from "../../components/Utils";
 import { Link } from "react-router-dom";
-import { DISCOUNT_LIST } from "../../routes/routes";
-import { PAGINATE } from "../../constant/constant";
-import { NoDataFound, Pagination, setBadgeClass } from "../../components/Utils";
-import moment from "moment";
 
-const DiscountList = () => {
+const AdminList = () => {
   // ## State Variable Declaration
   const [data, setData] = useState([]);
   const [paginator, setPaginator] = useState({});
   const [page, setPage] = useState(1);
 
+  /**
+   * @API Customer List API's call
+   */
   useEffect(() => {
     axios
-      .get(DISCOUNT_LIST + `?type=${PAGINATE}&page=${page}`)
+      .get(ADMIN_LIST + `?page=${page}`)
       .then((response) => {
-        console.log(response);
         if (
           response.status === 200 &&
           response.data.status &&
@@ -38,8 +38,8 @@ const DiscountList = () => {
       <div className="container-xxl flex-grow-1 container-p-y">
         <div className="card">
           <div className="card-header">
-            <h5>Discount</h5>
-            <Link to={"/create/discount"}>
+            <h5>Admin List</h5>
+            <Link to={"/create/admin"}>
               <button type="button" className="btn rounded-pill btn-primary">
                 <span className="tf-icons bx bx-plus"></span>&nbsp; Add
               </button>
@@ -50,21 +50,18 @@ const DiscountList = () => {
               <thead>
                 <tr>
                   <th>Action</th>
-                  <th>Discount Name</th>
-                  <th>Vendor Name</th>
-                  <th>Type</th>
-                  <th>Category</th>
-                  <th>Percentage</th>
-                  <th>Expired At</th>
-                  <th>Status</th>
+                  <th>Name</th>
+                  <th>Mobile</th>
+                  <th>Email</th>
+                  <th>Role</th>
                 </tr>
               </thead>
               <tbody className="table-border-bottom-0">
                 {data.length > 0 ? (
-                  data.map((discount, i) => (
+                  data.map((admin, i) => (
                     <tr key={i}>
                       <td>
-                        <Link to={`/discount/${discount.id}/edit`}>
+                        <Link to={`/admin/${admin.id}/edit`}>
                           <button
                             className="badge bg-label-success me-1 border-0"
                             data-bs-toggle="tooltip"
@@ -78,37 +75,14 @@ const DiscountList = () => {
                           </button>
                         </Link>
                       </td>
-                      <td>{discount?.name}</td>
-                      <td>
-                        {discount?.vendor_id === 0
-                          ? "All"
-                          : discount?.vendor?.name}
-                      </td>
-                      <td>{discount?.type?.module_name}</td>
-                      <td>
-                        {discount?.category_id === 0
-                          ? "All"
-                          : discount?.category?.name}
-                      </td>
-                      <td>{discount?.percentage}</td>
-                      <td>
-                        {moment(discount?.expire_at).format(
-                          "YYYY-MM-DD h:mm A"
-                        )}
-                      </td>
-                      <td>
-                        <span
-                          className={setBadgeClass(
-                            discount?.status?.module_name
-                          )}
-                        >
-                          {discount?.status?.module_name}
-                        </span>
-                      </td>
+                      <td>{admin?.name}</td>
+                      <td>{admin?.mobile}</td>
+                      <td>{admin?.email}</td>
+                      <td>{admin?.roles[0]?.name}</td>
                     </tr>
                   ))
                 ) : (
-                  <NoDataFound front="4" back="4" message="No Data Found" />
+                  <NoDataFound front="2" back="2" message="No Data Found" />
                 )}
               </tbody>
             </table>
@@ -119,9 +93,8 @@ const DiscountList = () => {
           )}
         </div>
       </div>
-      <div className="content-backdrop fade"></div>
     </div>
-  );
+  )
 };
 
-export default DiscountList;
+export default AdminList;
