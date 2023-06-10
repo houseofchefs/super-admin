@@ -1,8 +1,5 @@
 import Modal from "react-bootstrap/Modal";
-import {
-  ValidationMessage,
-  frameDataOptions,
-} from "../../../components/Utils";
+import { ValidationMessage, frameDataOptions } from "../../../components/Utils";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Image } from "react-bootstrap";
@@ -36,7 +33,8 @@ const ProductEditModal = ({
     ) {
       requestBody = { ...requestBody, status: requestBody.status.value };
     }
-    axios.put(CREATE_PRODUCT + `/${data.id}`, requestBody)
+    axios
+      .put(CREATE_PRODUCT + `/${data.id}`, requestBody)
       .then((response) => {
         if (response.status === 200 && response.data.status) {
           toast.success(response.data.msg);
@@ -75,8 +73,13 @@ const ProductEditModal = ({
       name: data.name,
       price: data.price,
       units: data.units,
-      status: { label: data?.status?.module_name, value: data?.status?.module_code },
+      status: {
+        label: data?.status?.module_name,
+        value: data?.status?.module_code,
+      },
       description: data.description,
+      vendor_price: data.vendor_price,
+      admin_price: data.admin_price,
       vendor_id: id,
       image:
         "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
@@ -135,17 +138,31 @@ const ProductEditModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Price
+              Vendor Price
             </label>
             <input
-              type="text"
+              type="number"
               name="price"
               className="form-control"
-              placeholder="Price"
-              value={form.price}
-              onChange={(e) => setForm({ ...form, price: e.target.value })}
+              placeholder="Vendor Price"
+              value={form.vendor_price}
+              onChange={(e) => setForm({ ...form, vendor_price: e.target.value })}
             />
-            <ValidationMessage error={errors} name="price" />
+            <ValidationMessage error={errors} name="vendor_price" />
+          </div>
+          <div className="col-6 mb-3">
+            <label htmlFor="name" className="form-label">
+              Admin Price
+            </label>
+            <input
+              type="number"
+              name="price"
+              className="form-control"
+              placeholder="Admin Price"
+              value={form.admin_price}
+              onChange={(e) => setForm({ ...form, admin_price: e.target.value })}
+            />
+            <ValidationMessage error={errors} name="admin_price" />
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">

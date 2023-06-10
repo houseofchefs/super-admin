@@ -157,16 +157,33 @@ const MenuCreateModal = ({
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Price
+                Vendor Price
               </label>
               <input
-                type="text"
+                type="number"
                 name="price"
                 className="form-control"
-                placeholder="Price"
-                onChange={(e) => setForm({ ...form, price: e.target.value })}
+                placeholder="Vendor Price"
+                onChange={(e) =>
+                  setForm({ ...form, vendor_price: e.target.value })
+                }
               />
-              <ValidationMessage error={errors} name="price" />
+              <ValidationMessage error={errors} name="vendor_price" />
+            </div>
+            <div className="col-6 mb-3">
+              <label htmlFor="name" className="form-label">
+                Admin Price
+              </label>
+              <input
+                type="number"
+                name="price"
+                className="form-control"
+                placeholder="Admin Price"
+                onChange={(e) =>
+                  setForm({ ...form, admin_price: e.target.value })
+                }
+              />
+              <ValidationMessage error={errors} name="admin_price" />
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">

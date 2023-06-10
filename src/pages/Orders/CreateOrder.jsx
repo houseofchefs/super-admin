@@ -106,6 +106,51 @@ const CreateOrder = () => {
                       </div>
                     </div>
                   </div>
+
+                  <div className="col-md-12">
+                    <div className="card mb-4">
+                      <div className="card-header d-flex justify-content-between align-items-center">
+                        <h5 className="mb-0">Menu</h5>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="card-body">
+                            <div class="owl-carousel owl-theme gallery">
+                              <div class="item">
+                                <a href="#">
+                                  <div class="card menu-card">
+                                    <div class="card-head">
+                                      <img
+                                        class="card-img-top"
+                                        src="https://k-ramanathan.github.io/hoc-admin-dashboard/assets/img/menu-1%20(1).jpg"
+                                        alt="Card image cap"
+                                      />
+                                    </div>
+                                    <div class="card-body">
+                                      <div class="card-menu-text">
+                                        <div class="card-text-header">
+                                          <h4>Lorem ipsum dolor</h4>
+                                        </div>
+                                        <div class="card-text-header mt-2">
+                                          <p>&#8377;50</p>
+                                          <button
+                                            type="button"
+                                            class="btn btn-icon btn-outline-secondary"
+                                          >
+                                            <i class="bx bx-plus"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="col-md-4">
