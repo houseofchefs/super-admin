@@ -44,7 +44,11 @@ const EditDiscount = () => {
     if (Object.keys(requestBody.status).length > 0)
       requestBody = { ...requestBody, status: requestBody.status.value };
     axios
-      .put(DISCOUNT_LIST + `/${id}`, requestBody)
+      .post(DISCOUNT_LIST + `/${id}`, requestBody, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         if (res.status === 200 && res.data.status) {
           toast.success("Updated Successfully!");
@@ -113,6 +117,8 @@ const EditDiscount = () => {
           name: res.data.data.name,
           percentage: res.data.data.percentage,
           expire_at: res.data.data.expire_at,
+          image: res.data.data.image,
+          cardImage: res.data.data.image,
           status: {
             label: res.data.data.status.module_name,
             value: res.data.data.status.id,
@@ -120,6 +126,7 @@ const EditDiscount = () => {
           description: res.data.data.description,
         }));
       }
+      console.log(res.data.data);
     });
     /**
      * Common Status
@@ -152,7 +159,12 @@ const EditDiscount = () => {
                 <form>
                   <div className="row">
                     <div className="col-6">
-                      <Image width={80} height={80} src={form?.image} rounded />
+                      <Image
+                        width={80}
+                        height={80}
+                        src={form?.cardImage}
+                        rounded
+                      />
                     </div>
                     <div className="col-6">
                       <label htmlFor="name" className="form-label">
@@ -166,7 +178,10 @@ const EditDiscount = () => {
                           e.target.files.length > 0
                             ? setForm({
                                 ...form,
-                                image: URL.createObjectURL(e.target.files[0]),
+                                image: e.target.files[0],
+                                cardImage: URL.createObjectURL(
+                                  e.target.files[0]
+                                ),
                               })
                             : ""
                         }

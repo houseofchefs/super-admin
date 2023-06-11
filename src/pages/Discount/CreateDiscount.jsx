@@ -15,10 +15,7 @@ import { toast } from "react-toastify";
 
 const CreateDiscount = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    image:
-      "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
-  });
+  const [form, setForm] = useState({});
   const [type, setType] = useState([]);
   const [vendor, setVendor] = useState([]);
   const [category, setCategory] = useState([]);
@@ -26,7 +23,11 @@ const CreateDiscount = () => {
 
   const submit = () => {
     axios
-      .post(DISCOUNT_LIST, form)
+      .post(DISCOUNT_LIST, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         if (res.status === 201 && res.data.status) {
           toast.success("Created Successfully!");
@@ -88,7 +89,12 @@ const CreateDiscount = () => {
                 <form>
                   <div className="row">
                     <div className="col-6">
-                      <Image width={80} height={80} src={form.image} rounded />
+                      <Image
+                        width={80}
+                        height={80}
+                        src={form.cardImage}
+                        rounded
+                      />
                     </div>
                     <div className="col-6">
                       <label htmlFor="name" className="form-label">
@@ -102,7 +108,10 @@ const CreateDiscount = () => {
                           e.target.files.length > 0
                             ? setForm({
                                 ...form,
-                                image: URL.createObjectURL(e.target.files[0]),
+                                image: e.target.files[0],
+                                cardImage: URL.createObjectURL(
+                                  e.target.files[0]
+                                ),
                               })
                             : ""
                         }
