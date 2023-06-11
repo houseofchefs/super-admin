@@ -47,7 +47,7 @@ const OrderList = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Action</th>
+                  {/* <th>Action</th> */}
                   <th>Order No</th>
                   <th>Customers</th>
                   <th>Price</th>
@@ -59,7 +59,7 @@ const OrderList = () => {
                 {data.length > 0 ? (
                   data.map((order, i) => (
                     <tr key={i}>
-                      <td>
+                      {/* <td>
                         <Link to={`/order/${order.id}/edit`}>
                           <button
                             className="badge bg-label-success me-1 border-0"
@@ -73,7 +73,7 @@ const OrderList = () => {
                             <i className="bx bx-pencil"></i>
                           </button>
                         </Link>
-                      </td>
+                      </td> */}
                       <td>{order?.order_no}</td>
                       <td>{order?.customers?.name}</td>
                       <td>{order?.price}</td>

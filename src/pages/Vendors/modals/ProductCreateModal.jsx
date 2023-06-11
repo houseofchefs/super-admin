@@ -17,8 +17,6 @@ const ProductCreateModal = ({
   const { id } = useParams();
   const [form, setForm] = useState({
     vendor_id: id,
-    image:
-      "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
     menu_type: "product",
     category_id: 0,
     isPreOrder: 0,
@@ -33,7 +31,11 @@ const ProductCreateModal = ({
    */
   const createProduct = () => {
     axios
-      .post(CREATE_PRODUCT, form)
+      .post(CREATE_PRODUCT, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         if (response.status === 201 && response.data.status) {
           toast.success(response.data.msg);
@@ -41,8 +43,13 @@ const ProductCreateModal = ({
           setErrors([]);
           setForm({
             vendor_id: id,
-            image:
-              "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
+            menu_type: "product",
+            category_id: 0,
+            isPreOrder: 0,
+            isDaily: 1,
+            type: 0,
+            min_quantity: 0,
+            isApproved: 1,
           });
           setCreateProductModal(false);
         }
@@ -71,7 +78,7 @@ const ProductCreateModal = ({
       <Modal.Body>
         <div className="row">
           <div className="col-6">
-            <Image width={80} height={80} src={form.image} rounded />
+            <Image width={80} height={80} src={form.cardImage} rounded />
           </div>
           <div className="col-6">
             <label htmlFor="name" className="form-label">
@@ -85,7 +92,8 @@ const ProductCreateModal = ({
                 e.target.files.length > 0
                   ? setForm({
                       ...form,
-                      image: URL.createObjectURL(e.target.files[0]),
+                      image: e.target.files[0],
+                      cardImage: URL.createObjectURL(e.target.files[0]),
                     })
                   : ""
               }

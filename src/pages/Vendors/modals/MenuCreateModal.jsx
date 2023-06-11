@@ -23,8 +23,7 @@ const MenuCreateModal = ({
     vendor_id: id,
     isPreOrder: false,
     isDaily: false,
-    image:
-      "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
+    menu_type:"menu",   
   });
   const [errors, setErrors] = useState([]);
 
@@ -46,9 +45,14 @@ const MenuCreateModal = ({
     if (!form.isDaily && form.days != null && form.days.length > 0)
       requestBody = { ...requestBody, days: pluckValue(form.days) };
     else requestBody = { ...requestBody, days: [] };
+    
+    requestBody = {...requestBody, isPreOrder: requestBody.isPreOrder ? 1 : 0}
+    requestBody = {...requestBody, isDaily: requestBody.isDaily ? 1 : 0}
 
     axios
-      .post(CREATE_MENU, requestBody)
+      .post(CREATE_MENU, requestBody, {headers: {
+        'Content-Type': 'multipart/form-data'
+      }})
       .then((response) => {
         if (response.status === 201 && response.data.status) {
           toast.success(response.data.msg);
@@ -57,8 +61,9 @@ const MenuCreateModal = ({
           setErrors([]);
           setForm({
             vendor_id: { id },
-            image:
-              "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
+            isDaily: false,
+            isPreOrder: false,
+            menu_type: 'menu'
           });
         }
       })
@@ -87,7 +92,12 @@ const MenuCreateModal = ({
         <Modal.Body>
           <div className="row">
             <div className="col-6">
-              <Image width={80} height={80} src={form.image} rounded />
+              <Image
+                width={80}
+                height={80}
+                src={form.cardImage}
+                rounded
+              />
             </div>
             <div className="col-6">
               <label htmlFor="name" className="form-label">
@@ -101,7 +111,8 @@ const MenuCreateModal = ({
                   e.target.files.length > 0
                     ? setForm({
                         ...form,
-                        image: URL.createObjectURL(e.target.files[0]),
+                        image: e.target.files[0],
+                        cardImage: URL.createObjectURL(e.target.files[0])
                       })
                     : ""
                 }
@@ -161,6 +172,7 @@ const MenuCreateModal = ({
               </label>
               <input
                 type="number"
+                min={5}
                 name="price"
                 className="form-control"
                 placeholder="Vendor Price"
@@ -177,6 +189,7 @@ const MenuCreateModal = ({
               <input
                 type="number"
                 name="price"
+                min={5}
                 className="form-control"
                 placeholder="Admin Price"
                 onChange={(e) =>

@@ -19,8 +19,7 @@ const ProductEditModal = ({
   const { id } = useParams();
   const [form, setForm] = useState({
     vendor_id: id,
-    image:
-      "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
+    menu_type: "product",
   });
   const [errors, setErrors] = useState([]);
   const [status, setStatus] = useState([]);
@@ -34,7 +33,11 @@ const ProductEditModal = ({
       requestBody = { ...requestBody, status: requestBody.status.value };
     }
     axios
-      .put(CREATE_PRODUCT + `/${data.id}`, requestBody)
+      .post(CREATE_PRODUCT + `/${data.id}`, requestBody, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         if (response.status === 200 && response.data.status) {
           toast.success(response.data.msg);
@@ -42,8 +45,7 @@ const ProductEditModal = ({
           setErrors([]);
           setForm({
             vendor_id: id,
-            image:
-              "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
+            menu_type: "product",
           });
           setEditProductModal(false);
         }
@@ -81,8 +83,8 @@ const ProductEditModal = ({
       vendor_price: data.vendor_price,
       admin_price: data.admin_price,
       vendor_id: id,
-      image:
-        "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
+      image: data.image,
+      cardImage: data.image,
     });
   }, [id, data]);
   return (
@@ -101,7 +103,7 @@ const ProductEditModal = ({
       <Modal.Body>
         <div className="row">
           <div className="col-6">
-            <Image width={80} height={80} src={form.image} rounded />
+            <Image width={80} height={80} src={form.cardImage} rounded />
           </div>
           <div className="col-6">
             <label htmlFor="name" className="form-label">
@@ -115,7 +117,8 @@ const ProductEditModal = ({
                 e.target.files.length > 0
                   ? setForm({
                       ...form,
-                      image: URL.createObjectURL(e.target.files[0]),
+                      image: e.target.files[0],
+                      cardImage: URL.createObjectURL(e.target.files[0]),
                     })
                   : ""
               }
@@ -146,7 +149,9 @@ const ProductEditModal = ({
               className="form-control"
               placeholder="Vendor Price"
               value={form.vendor_price}
-              onChange={(e) => setForm({ ...form, vendor_price: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, vendor_price: e.target.value })
+              }
             />
             <ValidationMessage error={errors} name="vendor_price" />
           </div>
@@ -160,7 +165,9 @@ const ProductEditModal = ({
               className="form-control"
               placeholder="Admin Price"
               value={form.admin_price}
-              onChange={(e) => setForm({ ...form, admin_price: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, admin_price: e.target.value })
+              }
             />
             <ValidationMessage error={errors} name="admin_price" />
           </div>

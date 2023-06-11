@@ -47,6 +47,10 @@ const Sidebar = () => {
     isParentPath("/create/admin") ||
     isParentPath("/admin/:id/edit");
 
+  const orderRoutes = () => 
+    isParentPath("/orders") ||
+    isParentPath("/create/order")
+
   useEffect(() => {}, [location]);
   return (
     <aside
@@ -95,7 +99,7 @@ const Sidebar = () => {
             <div data-i18n="Analytics">Category</div>
           </Link>
         </li>
-        <li className="menu-item">
+        <li className={orderRoutes() ? "menu-item active" : "menu-item"}>
           <Link className="menu-link" to="orders">
             <i className="menu-icon tf-icons bx bx-home-smile"></i>
             <div data-i18n="Analytics">Orders</div>

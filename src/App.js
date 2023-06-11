@@ -64,8 +64,8 @@ function App() {
                 <Route path="/create/admin" element={<CreateAdmin />} />
                 <Route path="/admin/:id/edit" element={<EditAdmin />} />
                 <Route path="/reviews" element={<ReviewList />} />
-                {/* <Route path="/orders" element={<OrderList />} />
-                <Route path="/create/order" element={<CreateOrder />} /> */}
+                <Route path="/orders" element={<OrderList />} />
+                <Route path="/create/order" element={<CreateOrder />} />
               </Route>
             </Route>
             <Route path="/login" element={<LoginPage />} />
