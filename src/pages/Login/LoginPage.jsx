@@ -10,6 +10,7 @@ import { ValidationMessage } from "../../components/Utils";
 
 const LoginPage = () => {
   // ## State Variables
+  const [type, setType] = useState("password");
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -57,60 +58,77 @@ const LoginPage = () => {
                   <h3>Welcome</h3>
                 </div>
                 <form
-                id="formAuthentication"
-                className="mb-3"
-                onSubmit={submit}
-                method="POST"
-                autoComplete="off"
-                autoFocus="off"
-              >
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    autoFocus
-                    onChange={(e) =>
-                      setForm({ ...form, email: e.target.value })
-                    }
-                  />
-                  <ValidationMessage error={errors} name="email" />
-                </div>
-                <div className="mb-3 form-password-toggle">
-                  <div className="d-flex justify-content-between">
-                    <label className="form-label" htmlFor="password">
-                      Password
+                  id="formAuthentication"
+                  className="mb-3"
+                  onSubmit={submit}
+                  method="POST"
+                  autoComplete="off"
+                  autoFocus="off"
+                >
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label">
+                      Email
                     </label>
-                  </div>
-                  <div className="">
                     <input
-                      type="password"
-                      id="password"
+                      type="text"
                       className="form-control"
-                      name="password"
-                      placeholder="********"
-                      aria-describedby="password"
+                      id="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      autoFocus
                       onChange={(e) =>
-                        setForm({ ...form, password: e.target.value })
+                        setForm({ ...form, email: e.target.value })
                       }
                     />
-                    <ValidationMessage error={errors} name="password" />
+                    <ValidationMessage error={errors} name="email" />
                   </div>
-                </div>
-                <div className="mb-3">
-                  <button
-                    className="btn btn-primary d-grid w-100"
-                    type="submit"
-                  >
-                    Sign in
-                  </button>
-                </div>
-              </form>
+                  <div className="mb-3 form-password-toggle login-password">
+                    <div className="d-flex justify-content-between">
+                      <label className="form-label" htmlFor="password">
+                        Password
+                      </label>
+                    </div>
+                    <div className="input-group input-group-merge">
+                      <input
+                        type={type}
+                        id="basic-default-password32"
+                        className="form-control"
+                        name="password"
+                        placeholder="********"
+                        aria-describedby="basic-default-password"
+                        onChange={(e) =>
+                          setForm({ ...form, password: e.target.value })
+                        }
+                      />
+                      <ValidationMessage error={errors} name="password" />
+                      {type === "password" ? (
+                        <span
+                          className="input-group-text cursor-pointer"
+                          id="basic-default-password"
+                          onClick={() => setType('text')}
+                        >
+                          <i className="bx bx-hide"></i>
+                        </span>
+                      ) : (
+                        <span
+                          className="input-group-text cursor-pointer"
+                          id="basic-default-password"
+                          onClick={() => setType('password')}
+                        >
+                          <i className="bx bx-show"></i>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <button
+                      className="btn btn-primary d-grid w-100"
+                      type="submit"
+                    >
+                      Sign in
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
             <div className="col-lg-6">

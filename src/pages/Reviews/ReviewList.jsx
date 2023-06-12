@@ -15,7 +15,7 @@ const ReviewList = () => {
    */
   useEffect(() => {
     axios
-      .get(ADMIN_ORDER_LIST + `?page=${page}`)
+      .get(ADMIN_ORDER_LIST + `?page=${page}&type=reviews`)
       .then((response) => {
         if (
           response.status === 200 &&
@@ -46,6 +46,7 @@ const ReviewList = () => {
                 <tr>
                   <th>Action</th>
                   <th>Order No</th>
+                  <th>Price</th>
                   <th>Customer Name</th>
                   <th>Kitchen Name</th>
                 </tr>
@@ -54,22 +55,23 @@ const ReviewList = () => {
                 {data.length > 0 ? (
                   data.map((order, i) => (
                     <tr key={i}>
-                      <td>
+                      {/* <td>
                         <Link to={`/order/${order.id}/edit`}>
                           <button
-                            className="badge bg-label-danger me-1 border-0"
+                            className="badge bg-label-success me-1 border-0"
                             data-bs-toggle="tooltip"
                             data-bs-offset="0,4"
                             data-bs-placement="top"
                             data-bs-html="true"
-                            title="Edit"
-                            data-bs-original-title="Edit"
+                            title="View"
+                            data-bs-original-title="View"
                           >
-                            <i className="bx bx-trash"></i>
+                            <i className="bx bx-show"></i>
                           </button>
                         </Link>
-                      </td>
+                      </td> */}
                       <td>{order?.order_no}</td>
+                      <td>{order?.price}</td>
                       <td>{order?.customers?.name}</td>
                       <td>{order?.vendor?.name}</td>
                     </tr>

@@ -167,7 +167,7 @@ const Menus = () => {
                     </tr>
                   ))
                 ) : (
-                  <NoDataFound front="2" back="2" message="No Data Found" />
+                  <NoDataFound front="3" back="3" message="No Data Found" />
                 )}
               </tbody>
             </table>

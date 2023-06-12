@@ -321,3 +321,25 @@ border-color: hsl(0, 100%, 75%);
 }
 
 
+.login-password .input-group-text {
+  margin-left: -42px !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background: transparent !important;
+  border: none !important;
+}
+
+
+.login-password .input-group-text .bx-hide{
+  font-size: 20px;
+  z-index: 1000;
+  color: #fff;
+  cursor: pointer;
+}
+
+.login-password .input-group-text .bx-show{
+  font-size: 20px;
+  z-index: 1000;
+  color: #fff;
+  cursor: pointer;
+}
