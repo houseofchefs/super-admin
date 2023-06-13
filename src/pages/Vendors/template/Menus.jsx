@@ -57,7 +57,6 @@ const Menus = () => {
           response.data.status &&
           response.data.data.data.length > 0
         ) {
-          console.log(response.data.data.data);
           setData(response.data.data.data);
           setPaginator({
             prev: response.data.data.prev_page_url != null,

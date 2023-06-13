@@ -56,10 +56,10 @@ const MenuEditModal = ({
     else requestBody = { ...requestBody, days: [] };
     // status
     if (form.status != null && form.status.hasOwnProperty("value")) {
-      requestBody = {
-        ...requestBody,
-        isApproved: requestBody.status.label === "Approved",
-      };
+      // requestBody = {
+      //   ...requestBody,
+      //   isApproved: requestBody.status.label === "Approved",
+      // };
       requestBody = { ...requestBody, status: requestBody.status.value };
       requestBody = {
         ...requestBody,
@@ -150,6 +150,7 @@ const MenuEditModal = ({
           isPreOrder: data.isPreOrder,
           isDaily: data.isDaily,
           day: selectedDay,
+          isApproved: data.isApproved,
           description: data.description,
           vendor_id: id,
           vendor_price: data.vendor_price,

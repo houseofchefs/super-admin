@@ -32,6 +32,7 @@ import EditAdmin from "./pages/Admin/EditAdmin";
 import ReviewList from "./pages/Reviews/ReviewList";
 import OrderList from "./pages/Orders/OrderList";
 import CreateOrder from "./pages/Orders/CreateOrder";
+import EditOrder from "./pages/Orders/EditOrder";
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
                 <Route path="/reviews" element={<ReviewList />} />
                 <Route path="/orders" element={<OrderList />} />
                 <Route path="/create/order" element={<CreateOrder />} />
+                <Route path="/order/:id/edit" element={<EditOrder />} />
               </Route>
             </Route>
             <Route path="/login" element={<LoginPage />} />
