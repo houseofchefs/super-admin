@@ -82,7 +82,7 @@ const ProductCreateModal = ({
           </div>
           <div className="col-6">
             <label htmlFor="name" className="form-label">
-              Menu Image
+              Menu Image<span className="text-danger">*</span>
             </label>
             <input
               type="file"
@@ -102,7 +102,7 @@ const ProductCreateModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Name
+              Name<span className="text-danger">*</span>
             </label>
             <input
               type="text"
@@ -115,7 +115,7 @@ const ProductCreateModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Vendor Price
+              Vendor Price<span className="text-danger">*</span>
             </label>
             <input
               type="number"
@@ -130,7 +130,7 @@ const ProductCreateModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Admin Price
+              Admin Price<span className="text-danger">*</span>
             </label>
             <input
               type="number"
@@ -145,7 +145,7 @@ const ProductCreateModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Units
+              Units<span className="text-danger">*</span>
             </label>
             <input
               type="text"
@@ -158,7 +158,7 @@ const ProductCreateModal = ({
           </div>
           <div className="col-12 mb-3">
             <label htmlFor="name" className="form-label">
-              Description
+              Description<span className="text-danger">*</span>
             </label>
             <textarea
               onChange={(e) =>

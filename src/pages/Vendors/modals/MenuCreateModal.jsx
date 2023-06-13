@@ -101,7 +101,7 @@ const MenuCreateModal = ({
             </div>
             <div className="col-6">
               <label htmlFor="name" className="form-label">
-                Menu Image
+                Menu Image<span className="text-danger">*</span>
               </label>
               <input
                 type="file"
@@ -121,7 +121,7 @@ const MenuCreateModal = ({
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Name
+                Name<span className="text-danger">*</span>
               </label>
               <input
                 type="text"
@@ -134,7 +134,7 @@ const MenuCreateModal = ({
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Type
+                Type<span className="text-danger">*</span>
               </label>
               <Select
                 options={type}
@@ -144,7 +144,7 @@ const MenuCreateModal = ({
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Category
+                Category<span className="text-danger">*</span>
               </label>
               <Select
                 options={category}
@@ -156,7 +156,7 @@ const MenuCreateModal = ({
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Ingrediants
+                Ingrediants<span className="text-danger">*</span>
               </label>
               <Select
                 isMulti
@@ -165,10 +165,11 @@ const MenuCreateModal = ({
                   setForm({ ...form, ingredient_id: selected })
                 }
               />
+              <ValidationMessage error={errors} name="ingredient_id" />
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Vendor Price
+                Vendor Price<span className="text-danger">*</span>
               </label>
               <input
                 type="number"
@@ -184,7 +185,7 @@ const MenuCreateModal = ({
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Admin Price
+                Admin Price<span className="text-danger">*</span>
               </label>
               <input
                 type="number"
@@ -200,7 +201,7 @@ const MenuCreateModal = ({
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Min Quantity
+                Min Quantity<span className="text-danger">*</span>
               </label>
               <input
                 min="0"
@@ -255,7 +256,7 @@ const MenuCreateModal = ({
                 {!form.isDaily && (
                   <div className="col-6 mb-3">
                     <label htmlFor="name" className="form-label">
-                      Available days
+                      Available days<span className="text-danger">*</span>
                     </label>
                     <Select
                       isMulti
@@ -264,6 +265,7 @@ const MenuCreateModal = ({
                         setForm({ ...form, days: selected })
                       }
                     />
+                    <ValidationMessage error={errors} name="days" />
                   </div>
                 )}
               </>

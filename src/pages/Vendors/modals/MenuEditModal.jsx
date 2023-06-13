@@ -143,7 +143,8 @@ const MenuEditModal = ({
           cardImage: data.image,
           type: selectedType.length > 0 ? selectedType[0] : {},
           category_id: selectedCategory.length > 0 ? selectedCategory[0] : {},
-          ingredient_id: selectedIngrediant,
+          ingredient_id:
+            selectedIngrediant.length > 0 ? selectedIngrediant : [],
           price: data.price,
           min_quantity: data.min_quantity,
           status: currentStatus,
@@ -178,7 +179,7 @@ const MenuEditModal = ({
           </div>
           <div className="col-6">
             <label htmlFor="name" className="form-label">
-              Menu Image
+              Menu Image<span className="text-danger">*</span>
             </label>
             <input
               type="file"
@@ -198,7 +199,7 @@ const MenuEditModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Name
+              Name<span className="text-danger">*</span>
             </label>
             <input
               type="text"
@@ -212,7 +213,7 @@ const MenuEditModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Type
+              Type<span className="text-danger">*</span>
             </label>
             <Select
               value={form.type}
@@ -223,7 +224,7 @@ const MenuEditModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Category
+              Category<span className="text-danger">*</span>
             </label>
             <Select
               value={form.category_id}
@@ -236,7 +237,7 @@ const MenuEditModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Ingrediants
+              Ingrediants<span className="text-danger">*</span>
             </label>
             <Select
               isMulti
@@ -246,10 +247,11 @@ const MenuEditModal = ({
                 setForm({ ...form, ingredient_id: selected })
               }
             />
+            <ValidationMessage error={errors} name="ingredient_id" />
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Vendor Price
+              Vendor Price<span className="text-danger">*</span>
             </label>
             <input
               type="number"
@@ -266,7 +268,7 @@ const MenuEditModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Admin Price
+              Admin Price<span className="text-danger">*</span>
             </label>
             <input
               type="number"
@@ -283,7 +285,7 @@ const MenuEditModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Min Quantity
+              Min Quantity<span className="text-danger">*</span>
             </label>
             <input
               min="0"
@@ -300,7 +302,7 @@ const MenuEditModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Status
+              Status<span className="text-danger">*</span>
             </label>
             <Select
               onChange={(selected) => setForm({ ...form, status: selected })}
@@ -357,7 +359,7 @@ const MenuEditModal = ({
               {!form.isDaily && (
                 <div className="col-6 mb-3">
                   <label htmlFor="name" className="form-label">
-                    Available days
+                    Available days<span className="text-danger">*</span>
                   </label>
                   <Select
                     isMulti
@@ -367,6 +369,7 @@ const MenuEditModal = ({
                       setForm({ ...form, days: selected })
                     }
                   />
+                  <ValidationMessage error={errors} name="days" />
                 </div>
               )}
             </>

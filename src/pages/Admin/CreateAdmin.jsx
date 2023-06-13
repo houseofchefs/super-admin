@@ -55,7 +55,7 @@ const CreateAdmin = () => {
                           className="form-label"
                           htmlFor="basic-default-fullname"
                         >
-                          Name
+                          Name<span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -75,7 +75,7 @@ const CreateAdmin = () => {
                           className="form-label"
                           htmlFor="basic-default-email"
                         >
-                          Email
+                          Email<span className="text-danger">*</span>
                         </label>
                         <input
                           type="email"
@@ -95,7 +95,7 @@ const CreateAdmin = () => {
                           className="form-label"
                           htmlFor="basic-default-mobile"
                         >
-                          Mobile
+                          Mobile<span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -115,7 +115,7 @@ const CreateAdmin = () => {
                           className="form-label"
                           htmlFor="basic-default-mobile"
                         >
-                          Password
+                          Password<span className="text-danger">*</span>
                         </label>
                         <input
                           type="password"

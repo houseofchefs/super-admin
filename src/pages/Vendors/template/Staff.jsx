@@ -172,7 +172,7 @@ const Staff = () => {
           <div className="row">
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Name
+                Name<span className="text-danger">*</span>
               </label>
               <input
                 type="text"
@@ -185,7 +185,7 @@ const Staff = () => {
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Mobile
+                Mobile<span className="text-danger">*</span>
               </label>
               <input
                 type="text"
@@ -198,7 +198,7 @@ const Staff = () => {
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Email
+                Email<span className="text-danger">*</span>
               </label>
               <input
                 type="email"
@@ -211,7 +211,7 @@ const Staff = () => {
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Password
+                Password<span className="text-danger">*</span>
               </label>
               <input
                 type="password"
@@ -224,7 +224,7 @@ const Staff = () => {
             </div>
             <div className="col-6 mb-3">
               <label htmlFor="name" className="form-label">
-                Role
+                Role<span className="text-danger">*</span>
               </label>
               <Select
                 options={ROLES_STAFF}

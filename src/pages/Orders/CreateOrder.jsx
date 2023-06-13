@@ -257,13 +257,13 @@ const CreateOrder = () => {
                     <div className="card mb-4">
                       <div className="card-header d-flex justify-content-between align-items-center">
                         <h5 className="mb-0">
-                          Customer<span className="text-danger">*</span>
+                          Customer
                         </h5>
                       </div>
                       <div className="card-body">
                         <div className="row">
                           <div className="col-md-6 mt-2">
-                            <label className="form-label">Customer</label>
+                            <label className="form-label">Customer<span className="text-danger">*</span></label>
                             <Select
                               options={customer}
                               onChange={(selected) => {
@@ -293,7 +293,7 @@ const CreateOrder = () => {
                             />
                           </div>
                           <div className="col-md-6 mt-2">
-                            <label className="form-label">Vendor</label>
+                            <label className="form-label">Vendor<span className="text-danger">*</span></label>
                             <Select
                               options={vendor}
                               onChange={(selected) => {
