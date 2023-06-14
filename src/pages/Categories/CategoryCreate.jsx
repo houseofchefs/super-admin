@@ -18,13 +18,11 @@ import {
 import { toast } from "react-toastify";
 import Select from "react-select";
 import axios from "axios";
+import { Image } from "react-bootstrap";
 
 const CategoryCreate = () => {
   // Declaring State Variable
-  const [form, setForm] = useState({
-    image:
-      "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
-  });
+  const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
   const [slots, setSlots] = useState([]);
   const [vendor, setVendor] = useState([]);
@@ -42,7 +40,12 @@ const CategoryCreate = () => {
         ...requestBody,
         vendor_id: requestBody.vendor_id.value,
       };
-    axios.post(CATEGORIES_LIST, requestBody)
+    axios
+      .post(CATEGORIES_LIST, requestBody, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         if (res.status === 201 && res.data.status) {
           toast.success(CATEGORIES_CREATED);
@@ -91,6 +94,34 @@ const CategoryCreate = () => {
             <div className="card-body">
               <form>
                 <div className="row">
+                  <div className="col-6">
+                    <Image
+                      width={80}
+                      height={80}
+                      src={form.cardImage}
+                      rounded
+                    />
+                  </div>
+                  <div className="col-6">
+                    <label htmlFor="name" className="form-label">
+                      Category Image<span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="file"
+                      className="form-control"
+                      accept="image/jpeg, image/png, image/jpg"
+                      onChange={(e) =>
+                        e.target.files.length > 0
+                          ? setForm({
+                              ...form,
+                              image: e.target.files[0],
+                              cardImage: URL.createObjectURL(e.target.files[0]),
+                            })
+                          : ""
+                      }
+                    />
+                    <ValidationMessage error={errors} name="image" />
+                  </div>
                   <div className="col-md-6">
                     <div className="mb-3">
                       <label

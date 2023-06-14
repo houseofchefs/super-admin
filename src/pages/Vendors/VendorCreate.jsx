@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  ValidationMessage,
-  frameDataOptions,
-} from "../../components/Utils";
+import { ValidationMessage, frameDataOptions } from "../../components/Utils";
 import {
   CREATE_VENDOR,
   GET_LAT_LNG,
@@ -15,6 +12,7 @@ import { toast } from "react-toastify";
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
 import axios from "axios";
+import { Image } from "react-bootstrap";
 
 const VendorCreate = () => {
   const [form, setForm] = useState({});
@@ -27,7 +25,8 @@ const VendorCreate = () => {
    * @param {*} callback
    */
   const loadOptions = (inputValue, callback) => {
-    axios.get(GOOGLE_LOCATION + `?place=${inputValue}`)
+    axios
+      .get(GOOGLE_LOCATION + `?place=${inputValue}`)
       .then((res) => {
         let data = res.data;
         let options = [];
@@ -54,7 +53,12 @@ const VendorCreate = () => {
         address_line: requestBody.address_line.label,
         place_id: requestBody.address_line.value,
       };
-    axios.post(CREATE_VENDOR, requestBody)
+    axios
+      .post(CREATE_VENDOR, requestBody, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         console.log(res);
         if (res.status === 201 && res.data.status) {
@@ -107,13 +111,44 @@ const VendorCreate = () => {
               <div className="card-body pb-0">
                 <form>
                   <div className="row">
+                    <div className="col-6">
+                      <Image
+                        width={80}
+                        height={80}
+                        src={form.cardImage}
+                        rounded
+                      />
+                    </div>
+                    <div className="col-6">
+                      <label htmlFor="name" className="form-label">
+                        Vendor Image<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        accept="image/jpeg, image/png, image/jpg"
+                        onChange={(e) =>
+                          e.target.files.length > 0
+                            ? setForm({
+                                ...form,
+                                image: e.target.files[0],
+                                cardImage: URL.createObjectURL(
+                                  e.target.files[0]
+                                ),
+                              })
+                            : ""
+                        }
+                      />
+                      <ValidationMessage error={errors} name="image" />
+                    </div>
                     <div className="col-md-6">
                       <div className="mb-3">
                         <label
                           className="form-label"
                           htmlFor="basic-default-fullname"
                         >
-                          Vendor / Kitchen Name<span className="text-danger">*</span>
+                          Vendor / Kitchen Name
+                          <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -213,7 +248,8 @@ const VendorCreate = () => {
                           className="form-label"
                           htmlFor="basic-default-mobile"
                         >
-                          Order Accept Time<span className="text-danger">*</span>
+                          Order Accept Time
+                          <span className="text-danger">*</span>
                         </label>
                         <input
                           type="time"
@@ -221,10 +257,16 @@ const VendorCreate = () => {
                           id="basic-default-mobile"
                           placeholder="Order Accept Time"
                           onChange={(e) =>
-                            setForm({ ...form, order_accept_time: e.target.value })
+                            setForm({
+                              ...form,
+                              order_accept_time: e.target.value,
+                            })
                           }
                         />
-                        <ValidationMessage error={errors} name="order_accept_time" />
+                        <ValidationMessage
+                          error={errors}
+                          name="order_accept_time"
+                        />
                       </div>
                     </div>
                     <div className="col-md-6">

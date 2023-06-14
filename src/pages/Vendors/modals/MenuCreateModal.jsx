@@ -21,9 +21,9 @@ const MenuCreateModal = ({
   const { id } = useParams();
   const [form, setForm] = useState({
     vendor_id: id,
-    isPreOrder: false,
-    isDaily: false,
-    menu_type:"menu",   
+    isPreOrder: 0,
+    isDaily: 0,
+    menu_type: "menu",
   });
   const [errors, setErrors] = useState([]);
 
@@ -45,14 +45,19 @@ const MenuCreateModal = ({
     if (!form.isDaily && form.days != null && form.days.length > 0)
       requestBody = { ...requestBody, days: pluckValue(form.days) };
     else requestBody = { ...requestBody, days: [] };
-    
-    requestBody = {...requestBody, isPreOrder: requestBody.isPreOrder ? 1 : 0}
-    requestBody = {...requestBody, isDaily: requestBody.isDaily ? 1 : 0}
+
+    requestBody = {
+      ...requestBody,
+      isPreOrder: requestBody.isPreOrder ? 1 : 0,
+    };
+    requestBody = { ...requestBody, isDaily: requestBody.isDaily ? 1 : 0 };
 
     axios
-      .post(CREATE_MENU, requestBody, {headers: {
-        'Content-Type': 'multipart/form-data'
-      }})
+      .post(CREATE_MENU, requestBody, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         if (response.status === 201 && response.data.status) {
           toast.success(response.data.msg);
@@ -63,7 +68,7 @@ const MenuCreateModal = ({
             vendor_id: { id },
             isDaily: false,
             isPreOrder: false,
-            menu_type: 'menu'
+            menu_type: "menu",
           });
         }
       })
@@ -92,12 +97,7 @@ const MenuCreateModal = ({
         <Modal.Body>
           <div className="row">
             <div className="col-6">
-              <Image
-                width={80}
-                height={80}
-                src={form.cardImage}
-                rounded
-              />
+              <Image width={80} height={80} src={form.cardImage} rounded />
             </div>
             <div className="col-6">
               <label htmlFor="name" className="form-label">
@@ -112,7 +112,7 @@ const MenuCreateModal = ({
                     ? setForm({
                         ...form,
                         image: e.target.files[0],
-                        cardImage: URL.createObjectURL(e.target.files[0])
+                        cardImage: URL.createObjectURL(e.target.files[0]),
                       })
                     : ""
                 }
@@ -230,7 +230,7 @@ const MenuCreateModal = ({
                 />
               </div>
             </div>
-            {form.isPreOrder && (
+            {form.isPreOrder ? (
               <>
                 <div className="col-3 mb-3">
                   <label htmlFor="name" className="form-label">
@@ -241,19 +241,21 @@ const MenuCreateModal = ({
                       className="form-check-input"
                       type="radio"
                       name="availabilty"
-                      onClick={() => setForm({ ...form, isDaily: false })}
+                      onClick={() => setForm({ ...form, isDaily: 0 })}
+                      checked={form.isDaily === 0 ? true : ""}
                     />{" "}
                     <span className="ms-1">Day</span>
                     <input
                       className="form-check-input ms-2"
                       type="radio"
                       name="availabilty"
-                      onClick={() => setForm({ ...form, isDaily: true })}
+                      onClick={() => setForm({ ...form, isDaily: 1 })}
+                      checked={form.isDaily === 1 ? true : ""}
                     />{" "}
                     <span className="ms-1">Daily</span>
                   </div>
                 </div>
-                {!form.isDaily && (
+                {!form.isDaily ? (
                   <div className="col-6 mb-3">
                     <label htmlFor="name" className="form-label">
                       Available days<span className="text-danger">*</span>
@@ -267,8 +269,12 @@ const MenuCreateModal = ({
                     />
                     <ValidationMessage error={errors} name="days" />
                   </div>
+                ) : (
+                  ""
                 )}
               </>
+            ) : (
+              ""
             )}
 
             <div className="col-12 mb-3">

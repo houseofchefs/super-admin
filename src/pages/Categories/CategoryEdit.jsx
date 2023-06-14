@@ -19,6 +19,7 @@ import {
 import { toast } from "react-toastify";
 import Select from "react-select";
 import axios from "axios";
+import { Image } from "react-bootstrap";
 
 const CategoryEdit = () => {
   // Declaring State Variable
@@ -46,7 +47,12 @@ const CategoryEdit = () => {
     if (requestBody.vendor_id != null)
       requestBody = { ...requestBody, vendor_id: requestBody.vendor_id.value };
 
-    axios.put(CATEGORIES_LIST + `/${params.id}`, requestBody)
+    axios
+      .post(CATEGORIES_LIST + `/${params.id}`, requestBody, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         if (res.status === 200 && res.data.status) {
           toast.success(CATEGORIES_UPDATED);
@@ -72,6 +78,7 @@ const CategoryEdit = () => {
         let status = null;
         let name = null;
         let selectedVendor = {};
+        let image = "";
         // Fetch detail API
         const detailResponse = await axios.get(
           CATEGORIES_LIST + `/${params.id}/edit`
@@ -84,8 +91,14 @@ const CategoryEdit = () => {
           name = detailResponse.data.data[0].name;
           timeSlot = detailResponse.data.data[0].slots;
           status = detailResponse.data.data[0].status;
-          selectedVendor = { value:detailResponse.data.data[0].vendor_id, label:detailResponse.data.data[0].vendor_name != null ? detailResponse.data.data[0].vendor_name : "All" }
-          console.log(selectedVendor);
+          image = detailResponse.data.data[0].image;
+          selectedVendor = {
+            value: detailResponse.data.data[0].vendor_id,
+            label:
+              detailResponse.data.data[0].vendor_name != null
+                ? detailResponse.data.data[0].vendor_name
+                : "All",
+          };
         }
 
         // Fetch Time Slot API
@@ -125,7 +138,9 @@ const CategoryEdit = () => {
           slot: selectedTS,
           status: selectedS[0],
           name: name,
-          vendor_id: selectedVendor
+          cardImage: image,
+          image: image,
+          vendor_id: selectedVendor,
         }));
       } catch (error) {
         console.error(error);
@@ -159,6 +174,36 @@ const CategoryEdit = () => {
               <div className="card-body ">
                 <form>
                   <div className="row">
+                    <div className="col-6">
+                      <Image
+                        width={80}
+                        height={80}
+                        src={form.cardImage}
+                        rounded
+                      />
+                    </div>
+                    <div className="col-6">
+                      <label htmlFor="name" className="form-label">
+                        Category Image<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        accept="image/jpeg, image/png, image/jpg"
+                        onChange={(e) =>
+                          e.target.files.length > 0
+                            ? setForm({
+                                ...form,
+                                image: e.target.files[0],
+                                cardImage: URL.createObjectURL(
+                                  e.target.files[0]
+                                ),
+                              })
+                            : ""
+                        }
+                      />
+                      <ValidationMessage error={errors} name="image" />
+                    </div>
                     <div className="col-md-6">
                       <div className="mb-3">
                         <label

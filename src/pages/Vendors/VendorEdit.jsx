@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
 import axios from "axios";
+import { Image } from "react-bootstrap";
 
 const VendorEdit = () => {
   const navigate = useNavigate();
@@ -63,9 +64,13 @@ const VendorEdit = () => {
         ...requestBody,
         account_type: requestBody.account_type.value,
       };
-      console.log(requestBody);
+    console.log(requestBody);
     axios
-      .put(VENDOR_DETAILs + id, requestBody)
+      .post(VENDOR_DETAILs + id, requestBody, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         console.log(res);
         if (res.status === 201 && res.data.status) {
@@ -107,6 +112,8 @@ const VendorEdit = () => {
           name: data.name,
           email: data.email,
           mobile: data.mobile,
+          cardImage: data.image,
+          image: data.image,
           open_time: data.open_time,
           close_time: data.close_time,
           order_accept_time: data.order_accept_time,
@@ -161,6 +168,36 @@ const VendorEdit = () => {
               <div className="card-body pb-0">
                 <form>
                   <div className="row">
+                    <div className="col-6">
+                      <Image
+                        width={80}
+                        height={80}
+                        src={form.cardImage}
+                        rounded
+                      />
+                    </div>
+                    <div className="col-6">
+                      <label htmlFor="name" className="form-label">
+                        Vendor Image<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        accept="image/jpeg, image/png, image/jpg"
+                        onChange={(e) =>
+                          e.target.files.length > 0
+                            ? setForm({
+                                ...form,
+                                image: e.target.files[0],
+                                cardImage: URL.createObjectURL(
+                                  e.target.files[0]
+                                ),
+                              })
+                            : ""
+                        }
+                      />
+                      <ValidationMessage error={errors} name="image" />
+                    </div>
                     <div className="col-md-6">
                       <div className="mb-3">
                         <label
