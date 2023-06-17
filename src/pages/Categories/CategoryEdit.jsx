@@ -139,7 +139,6 @@ const CategoryEdit = () => {
           status: selectedS[0],
           name: name,
           cardImage: image,
-          image: image,
           vendor_id: selectedVendor,
         }));
       } catch (error) {
@@ -183,9 +182,21 @@ const CategoryEdit = () => {
                       />
                     </div>
                     <div className="col-6">
-                      <label htmlFor="name" className="form-label">
-                        Category Image<span className="text-danger">*</span>
-                      </label>
+                      <div className="d-flex justify-content-between">
+                        <label htmlFor="name" className="form-label">
+                          Category Image<span className="text-danger">*</span>
+                        </label>
+                        <div className="d-flex gap-3 image-info">
+                          <div>
+                            <label>Max :</label>
+                            <span>2MB</span>
+                          </div>
+                          <div>
+                            <label htmlFor="pixel">Pixels :</label>
+                            <span> 100px * 100px </span>
+                          </div>
+                        </div>
+                      </div>
                       <input
                         type="file"
                         className="form-control"

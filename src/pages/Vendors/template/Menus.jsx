@@ -33,14 +33,16 @@ const Menus = () => {
   const { id } = useParams();
 
   const approveMenu = (id) => {
-    axios.put(MENU_APPROVE + id, {
-      status: "MS02",
-    }).then((response) => {
-      if (response.status === 200 && response.data.status) {
-        toast.success(response.data.msg);
-        setCount(count + 1);
-      }
-    });
+    axios
+      .put(MENU_APPROVE + id, {
+        status: "MS02",
+      })
+      .then((response) => {
+        if (response.status === 200 && response.data.status) {
+          toast.success(response.data.msg);
+          setCount(count + 1);
+        }
+      });
   };
 
   const openEditMenuModal = (data) => {
@@ -50,8 +52,9 @@ const Menus = () => {
 
   useEffect(() => {
     // Menu List
-    axios.get(VENDOR_BASED_MENU_LIST + `${id}?page=${page}`).then(
-      (response) => {
+    axios
+      .get(VENDOR_BASED_MENU_LIST + `${id}?page=${page}`)
+      .then((response) => {
         if (
           response.status === 200 &&
           response.data.status &&
@@ -66,8 +69,7 @@ const Menus = () => {
             last: response.data.data.last_page,
           });
         }
-      }
-    );
+      });
     // Food Type
     axios.get(SUBMODULES + FOOD_TYPE).then((response) => {
       if (response.status === 200) {
@@ -120,6 +122,7 @@ const Menus = () => {
                   <th>Category</th>
                   <th>Food Type</th>
                   <th>Price</th>
+                  <th>Admin Price</th>
                   <th>Description</th>
                   <th>Status</th>
                 </tr>
@@ -142,8 +145,10 @@ const Menus = () => {
                           >
                             <i className="bx bx-check"></i>
                           </button>
-                        ) : ""}
-                        
+                        ) : (
+                          ""
+                        )}
+
                         <button
                           onClick={() => openEditMenuModal(menu.id)}
                           className="badge bg-label-success me-1 border-0"
@@ -161,6 +166,7 @@ const Menus = () => {
                       <td>{menu.category}</td>
                       <td>{menu.food_type}</td>
                       <td>{menu.price}</td>
+                      <td>{menu.admin_price}</td>
                       <td>{menu.description}</td>
                       <td>{menu.status}</td>
                     </tr>

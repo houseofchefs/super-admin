@@ -139,7 +139,7 @@ const MenuEditModal = ({
 
         setForm({
           name: data.name,
-          image: data.image,
+          // image: data.image,
           cardImage: data.image,
           type: selectedType.length > 0 ? selectedType[0] : {},
           category_id: selectedCategory.length > 0 ? selectedCategory[0] : {},
@@ -150,12 +150,10 @@ const MenuEditModal = ({
           status: currentStatus,
           isPreOrder: data.isPreOrder,
           isDaily: data.isDaily,
-          day: selectedDay,
+          days: selectedDay,
           isApproved: data.isApproved,
           description: data.description,
           vendor_id: id,
-          vendor_price: data.vendor_price,
-          admin_price: data.admin_price,
         });
       }
     });
@@ -178,9 +176,21 @@ const MenuEditModal = ({
             <Image width={80} height={80} src={form.cardImage} rounded />
           </div>
           <div className="col-6">
-            <label htmlFor="name" className="form-label">
-              Menu Image<span className="text-danger">*</span>
-            </label>
+            <div className="d-flex justify-content-between">
+              <label htmlFor="name" className="form-label">
+                Menu Image<span className="text-danger">*</span>
+              </label>
+              <div className="d-flex gap-3 image-info">
+                <div>
+                  <label>Max :</label>
+                  <span>2MB</span>
+                </div>
+                <div>
+                  <label htmlFor="pixel">Pixels :</label>
+                  <span> 100px * 100px </span>
+                </div>
+              </div>
+            </div>
             <input
               type="file"
               className="form-control"
@@ -251,37 +261,18 @@ const MenuEditModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Vendor Price<span className="text-danger">*</span>
+              Price<span className="text-danger">*</span>
             </label>
             <input
               type="number"
               name="price"
-              defaultValue={form.vendor_price}
+              defaultValue={form.price}
               className="form-control"
-              placeholder="Vendor Price"
+              placeholder="Price"
               min={5}
-              onChange={(e) =>
-                setForm({ ...form, vendor_price: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, price: e.target.value })}
             />
-            <ValidationMessage error={errors} name="vendor_price" />
-          </div>
-          <div className="col-6 mb-3">
-            <label htmlFor="name" className="form-label">
-              Admin Price<span className="text-danger">*</span>
-            </label>
-            <input
-              type="number"
-              name="price"
-              min={5}
-              defaultValue={form.admin_price}
-              className="form-control"
-              placeholder="Admin Price"
-              onChange={(e) =>
-                setForm({ ...form, admin_price: e.target.value })
-              }
-            />
-            <ValidationMessage error={errors} name="admin_price" />
+            <ValidationMessage error={errors} name="price" />
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
@@ -363,7 +354,7 @@ const MenuEditModal = ({
                   </label>
                   <Select
                     isMulti
-                    value={form.day}
+                    value={form.days}
                     options={WEEK_DAYS}
                     onChange={(selected) =>
                       setForm({ ...form, days: selected })

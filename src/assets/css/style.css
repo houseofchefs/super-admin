@@ -343,3 +343,9 @@ border-color: hsl(0, 100%, 75%);
   color: #fff;
   cursor: pointer;
 }
+
+
+.image-info label, .image-info span{
+  font-size: 12px;
+  color:#ff6969 ;
+}

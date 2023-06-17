@@ -81,9 +81,21 @@ const ProductCreateModal = ({
             <Image width={80} height={80} src={form.cardImage} rounded />
           </div>
           <div className="col-6">
-            <label htmlFor="name" className="form-label">
-              Menu Image<span className="text-danger">*</span>
-            </label>
+            <div className="d-flex justify-content-between">
+              <label htmlFor="name" className="form-label">
+                Menu Image<span className="text-danger">*</span>
+              </label>
+              <div className="d-flex gap-3 image-info">
+                <div>
+                  <label>Max :</label>
+                  <span>2MB</span>
+                </div>
+                <div>
+                  <label htmlFor="pixel">Pixels :</label>
+                  <span> 100px * 100px </span>
+                </div>
+              </div>
+            </div>
             <input
               type="file"
               className="form-control"
@@ -115,33 +127,18 @@ const ProductCreateModal = ({
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
-              Vendor Price<span className="text-danger">*</span>
+              Price<span className="text-danger">*</span>
             </label>
             <input
               type="number"
               name="price"
               className="form-control"
-              placeholder="Vendor Price"
+              placeholder="Price"
               onChange={(e) =>
-                setForm({ ...form, vendor_price: e.target.value })
+                setForm({ ...form, price: e.target.value })
               }
             />
-            <ValidationMessage error={errors} name="vendor_price" />
-          </div>
-          <div className="col-6 mb-3">
-            <label htmlFor="name" className="form-label">
-              Admin Price<span className="text-danger">*</span>
-            </label>
-            <input
-              type="number"
-              name="price"
-              className="form-control"
-              placeholder="Admin Price"
-              onChange={(e) =>
-                setForm({ ...form, admin_price: e.target.value })
-              }
-            />
-            <ValidationMessage error={errors} name="admin_price" />
+            <ValidationMessage error={errors} name="price" />
           </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">

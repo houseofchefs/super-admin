@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { NoDataFound, Pagination, setBadgeClass } from "../../components/Utils";
 import { VENDORLIST } from "../../routes/routes";
 import axios from "axios";
+import moment from "moment";
 
 const VendorList = () => {
   // ## State Variable Declaration
@@ -88,7 +89,7 @@ const VendorList = () => {
                   <td>{vendor.name}</td>
                   <td>{vendor.mobile}</td>
                   <td>{vendor.email}</td>
-                  <td>04/04/2023</td>
+                  <td>{vendor.subscription_expire_at != null ? moment(vendor.subscription_expire_at).format('DD-MMMM-YYYY') : "NA"}</td>
                   <td>
                     <span
                       className={setBadgeClass(vendor?.status?.module_name)}
