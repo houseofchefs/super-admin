@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { NoDataFound, Pagination, setBadgeClass } from "../../../components/Utils";
-import { PRODUCT_LIST } from "../../../routes/routes";
+import {
+  NoDataFound,
+  Pagination,
+} from "../../../components/Utils";
+import { MENU_APPROVE, PRODUCT_LIST } from "../../../routes/routes";
 import { useParams } from "react-router-dom";
 
 import { toast } from "react-toastify";
@@ -19,8 +22,22 @@ const Product = () => {
   const [count, setCount] = useState(0);
   const { id } = useParams();
 
+  const approveMenu = (id) => {
+    axios
+      .put(MENU_APPROVE + id, {
+        status: "MS02",
+      })
+      .then((response) => {
+        if (response.status === 200 && response.data.status) {
+          toast.success("Product Updated Successfully!");
+          setCount(count + 1);
+        }
+      });
+  };
+
   useEffect(() => {
-    axios.get(PRODUCT_LIST + `${id}?page=${page}`)
+    axios
+      .get(PRODUCT_LIST + `${id}?page=${page}`)
       .then((response) => {
         if (
           response.status === 200 &&
@@ -75,6 +92,22 @@ const Product = () => {
                 data.map((product, i) => (
                   <tr key={i}>
                     <td>
+                      {!product.isApproved ? (
+                        <button
+                          onClick={() => approveMenu(product.id)}
+                          className="badge bg-label-info me-1 border-0"
+                          data-bs-toggle="tooltip"
+                          data-bs-offset="0,4"
+                          data-bs-placement="top"
+                          data-bs-html="true"
+                          title="Approve"
+                          data-bs-original-title="Approve"
+                        >
+                          <i className="bx bx-check"></i>
+                        </button>
+                      ) : (
+                        ""
+                      )}
                       <button
                         onClick={() => {
                           setEditProductModal(true);
@@ -95,13 +128,7 @@ const Product = () => {
                     <td>{product.units}</td>
                     <td>{product.price}</td>
                     <td>{product.description}</td>
-                    <td>
-                      <span
-                        className={setBadgeClass(product?.status?.module_name)}
-                      >
-                        {product?.status?.module_name}
-                      </span>
-                    </td>
+                    <td>{product?.status?.module_name}</td>
                   </tr>
                 ))
               ) : (
