@@ -21,25 +21,29 @@ const VendorCreate = () => {
   const navigate = useNavigate();
 
   /**   *
-   * @param {*} inputValue
+   * @param {*} input
    * @param {*} callback
    */
-  const loadOptions = (inputValue, callback) => {
-    axios
-      .get(GOOGLE_LOCATION + `?place=${inputValue}`)
-      .then((res) => {
-        let data = res.data;
-        let options = [];
-        if (data.predictions.length > 0) {
-          data.predictions.forEach((sd) => {
-            options.push({ label: sd.description, value: sd.place_id });
-          });
-        }
-        callback(options);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  const loadOptions = (input, callback) => {
+    if (input.length > 3) {
+      axios
+        .get(GOOGLE_LOCATION + `?place=${input}`)
+        .then((res) => {
+          let data = res.data;
+          let options = [];
+          if (data.predictions.length > 0) {
+            data.predictions.forEach((sd) => {
+              options.push({ label: sd.description, value: sd.place_id });
+            });
+          }
+          callback(options);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      callback([]);
+    }
   };
 
   /**
@@ -51,7 +55,7 @@ const VendorCreate = () => {
       requestBody = {
         ...requestBody,
         address_line: requestBody.address_line.label,
-        place_id: requestBody.address_line.value,
+        // place_id: requestBody.address_line.value,
       };
     axios
       .post(CREATE_VENDOR, requestBody, {

@@ -47,9 +47,13 @@ const Sidebar = () => {
     isParentPath("/create/admin") ||
     isParentPath("/admin/:id/edit");
 
-  const orderRoutes = () => 
-    isParentPath("/orders") ||
-    isParentPath("/create/order")
+  const orderRoutes = () =>
+    isParentPath("/orders") || isParentPath("/create/order");
+
+  const riderRoutes = () =>
+    isParentPath("/riders") ||
+    isParentPath("/rider/create") ||
+    isParentPath("/rider/:id/edit");
 
   useEffect(() => {}, [location]);
   return (
@@ -109,6 +113,12 @@ const Sidebar = () => {
           <Link className="menu-link" to="customers">
             <i className="menu-icon tf-icons bx bx-user"></i>
             <div data-i18n="Analytics">Customers</div>
+          </Link>
+        </li>
+        <li className={riderRoutes() ? "menu-item active" : "menu-item"}>
+          <Link className="menu-link" to="riders">
+            <i className="menu-icon tf-icons bx bx-user"></i>
+            <div data-i18n="Analytics">Riders</div>
           </Link>
         </li>
         <li className={discountRoutes() ? "menu-item active" : "menu-item"}>

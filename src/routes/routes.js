@@ -1,11 +1,8 @@
+import baseurl from "../baseurl.json";
 /**
  * ################## API's Service Route's Defining ##################
  */
-const app = "development";
-export const baseUrl =
-  app === "development"
-    ? "http://api-services.houseofchefs.in/api/v1"
-    : "http://127.0.0.1:8000/api/v1";
+export const baseUrl = baseurl.base;
 
 /**
  * ## Sub Routes Defining
@@ -28,7 +25,7 @@ export const MENU_APPROVE = "/menu/admin/approve/";
 export const PRODUCT_LIST = "/product/vendor/";
 export const CREATE_PRODUCT = "/product";
 export const STAFF_LIST = "/staff/vendor-based/list/";
-export const CREATE_STAFF = "/auth/staff/signup";
+export const CREATE_STAFF = "/vendor/staff/signup";
 export const STAFF_ACTIVE = "/staff/active/";
 export const STAFF_INACTIVE = "/staff/inactive/";
 export const ORDER_LIST = "/vendor/order/";
@@ -51,3 +48,6 @@ export const VENDOR_BASED_CATEGORY = "/category/vendor-based/";
 export const CATEGORY_BASED_MENUS = "/near-by/category-based-menu";
 export const PLACE_ORDER = "/customer/order";
 export const DASHBOARD = "/admin/dashboard";
+export const RIDER = "/rider";
+export const CREATE_RIDER = "/rider/store";
+export const EDIT_RIDER = "/rider/edit/";

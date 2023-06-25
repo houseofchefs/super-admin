@@ -33,6 +33,9 @@ import ReviewList from "./pages/Reviews/ReviewList";
 import OrderList from "./pages/Orders/OrderList";
 import CreateOrder from "./pages/Orders/CreateOrder";
 import EditOrder from "./pages/Orders/EditOrder";
+import Riders from "./pages/Riders/Riders";
+import CreateRider from "./pages/Riders/CreateRider";
+import EditRider from "./pages/Riders/EditRider";
 
 function App() {
   return (
@@ -68,6 +71,9 @@ function App() {
                 <Route path="/orders" element={<OrderList />} />
                 <Route path="/create/order" element={<CreateOrder />} />
                 <Route path="/order/:id/edit" element={<EditOrder />} />
+                <Route path="/riders" element={<Riders />} />
+                <Route path="/rider/create" element={<CreateRider />} />
+                <Route path="/rider/:id/edit" element={<EditRider />} />
               </Route>
             </Route>
             <Route path="/login" element={<LoginPage />} />
