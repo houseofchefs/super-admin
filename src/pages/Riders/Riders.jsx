@@ -72,6 +72,19 @@ const Riders = () => {
                             <i className="bx bx-pencil"></i>
                           </button>
                         </Link>
+                        <Link to={`/rider/${rider.id}/details`}>
+                          <button
+                            className="badge bg-label-primary me-1 border-0"
+                            data-bs-toggle="tooltip"
+                            data-bs-offset="0,4"
+                            data-bs-placement="top"
+                            data-bs-html="true"
+                            title="View"
+                            data-bs-original-title="View"
+                          >
+                            <i className="bx bx-show"></i>
+                          </button>
+                        </Link>
                       </td>
                       <td>{rider?.name}</td>
                       <td>{rider?.mobile}</td>

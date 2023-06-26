@@ -213,6 +213,26 @@ const CreateRider = () => {
                         <ValidationMessage error={errors} name="mobile" />
                       </div>
                     </div>
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <label
+                          className="form-label"
+                          htmlFor="basic-default-password"
+                        >
+                          Password<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="password"
+                          className="form-control"
+                          id="basic-default-password"
+                          placeholder="Password"
+                          onChange={(e) =>
+                            setForm({ ...form, password: e.target.value })
+                          }
+                        />
+                        <ValidationMessage error={errors} name="password" />
+                      </div>
+                    </div>
 
                     <div className="col-md-6">
                       <div className="mb-3">

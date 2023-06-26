@@ -1,22 +1,19 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Menus from "./template/Menus";
-import BasicDetails from "./template/BasicDetails";
-import Product from "./template/Product";
-import Staff from "./template/Staff";
-import Orders from "./template/Orders";
-import axios from "axios";
-import { VENDOR_DETAILs } from "../../routes/routes";
+import { EDIT_RIDER } from "../../routes/routes";
 import { toast } from "react-toastify";
+import BasicDetails from "./template/BasicDetails";
+import AssignedOrders from "./template/AssignedOrders";
 
-const VendorDetails = () => {
-  const [data, setData] = useState({});
+const RiderDetails = () => {
   const { id } = useParams();
+  const [data, setData] = useState({});
   const [tabView, setTabView] = useState("basic_details");
 
   useEffect(() => {
     axios
-      .get(VENDOR_DETAILs + id)
+      .get(EDIT_RIDER + id)
       .then((res) => {
         if (res.status === 200 && res.data.status) {
           setData(res.data.data);
@@ -31,7 +28,7 @@ const VendorDetails = () => {
       <div className="container-xxl flex-grow-1 container-p-y">
         <div className="demo-inline-spacing d-flex justify-content-between align-items-center mb-3">
           <h4 className="mb-0">{data?.name}</h4>
-          <Link to={"/vendors"}>
+          <Link to={"/riders"}>
             <button type="button" className="btn btn-dark rounded-pill">
               <i className="bx bx-exit"></i> back
             </button>
@@ -72,64 +69,13 @@ const VendorDetails = () => {
                     aria-selected="true"
                     onClick={() => setTabView("order")}
                   >
-                    Orders
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button
-                    type="button"
-                    className={
-                      tabView === "menus" ? "nav-link active" : "nav-link"
-                    }
-                    role="tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#navs-pills-top-profile"
-                    aria-controls="navs-pills-top-profile"
-                    aria-selected="false"
-                    onClick={() => setTabView("menus")}
-                  >
-                    Menu
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button
-                    type="button"
-                    className={
-                      tabView === "products" ? "nav-link active" : "nav-link"
-                    }
-                    role="tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#navs-pills-top-messages"
-                    aria-controls="navs-pills-top-messages"
-                    aria-selected="true"
-                    onClick={() => setTabView("products")}
-                  >
-                    Product
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button
-                    type="button"
-                    className={
-                      tabView === "staff" ? "nav-link active" : "nav-link"
-                    }
-                    role="tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#navs-pills-top-messages-three"
-                    aria-controls="navs-pills-top-messages-three"
-                    aria-selected="true"
-                    onClick={() => setTabView("staff")}
-                  >
-                    Staff
+                    Assigned Orders
                   </button>
                 </li>
               </ul>
               <div className="tab-content">
                 {tabView === "basic_details" && <BasicDetails data={data} />}
-                {tabView === "menus" && <Menus />}
-                {tabView === "products" && <Product />}
-                {tabView === "staff" && <Staff />}
-                {tabView === "order" && <Orders />}
+                {tabView === "order" && <AssignedOrders data={data} />}
               </div>
             </div>
           </div>
@@ -142,4 +88,4 @@ const VendorDetails = () => {
   );
 };
 
-export default VendorDetails;
+export default RiderDetails;
