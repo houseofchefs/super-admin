@@ -5,6 +5,9 @@ import axios from "axios";
 import { CUSTOMER_EDIT, CUSTOMER_UPDATE } from "../../routes/routes";
 import { toast } from "react-toastify";
 import { CUSTOMER_UPDATED, VALIDATION_ERROR } from "../../constant/constant";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_red.css";
+import moment from "moment";
 
 const CustomerEdit = () => {
   const navigate = useNavigate();
@@ -108,8 +111,8 @@ const CustomerEdit = () => {
                           Mobile<span className="text-danger">*</span>
                         </label>
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control hide-arrow"
                           id="basic-default-mobile"
                           placeholder="Mobile No"
                           onChange={(e) =>
@@ -128,7 +131,7 @@ const CustomerEdit = () => {
                         >
                           DOB<span className="text-danger">*</span>
                         </label>
-                        <input
+                        {/* <input
                           type="date"
                           className="form-control"
                           id="basic-default-mobile"
@@ -136,6 +139,21 @@ const CustomerEdit = () => {
                             setForm({ ...form, dob: e.target.value })
                           }
                           defaultValue={form.dob}
+                        /> */}
+                        <Flatpickr
+                          className="form-control"
+                          options={{
+                            dateFormat: "Y-m-d",
+                            enableTime: false,
+                            maxDate: "today",
+                            onChange: (selected) =>
+                              setForm({
+                                ...form,
+                                dob: moment(selected[0]).format("YYYY-MM-DD"),
+                              }),
+                          }}
+                          value={form.dob}
+                          placeholder="Select DOB"
                         />
                         <ValidationMessage error={errors} name="dob" />
                       </div>

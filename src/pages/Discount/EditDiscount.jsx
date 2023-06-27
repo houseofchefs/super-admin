@@ -12,6 +12,9 @@ import {
 } from "../../routes/routes";
 import { DROPDOWN, VALIDATION_ERROR } from "../../constant/constant";
 import axios from "axios";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_red.css";
+import moment from "moment";
 
 const EditDiscount = () => {
   const navigate = useNavigate();
@@ -327,7 +330,7 @@ const EditDiscount = () => {
                           EXPIRED AT<span className="text-danger">*</span>
                         </label>
                         <div className="col-md-12">
-                          <input
+                          {/* <input
                             className="form-control"
                             type="datetime-local"
                             id="html5-datetime-local-input"
@@ -335,6 +338,23 @@ const EditDiscount = () => {
                             onChange={(e) =>
                               setForm({ ...form, expire_at: e.target.value })
                             }
+                          /> */}
+                          <Flatpickr
+                            className="form-control"
+                            options={{
+                              dateFormat: "Y-m-d H:i:S",
+                              enableTime: true,
+                              minDate: "today",
+                              onChange: (selected) =>
+                                setForm({
+                                  ...form,
+                                  expire_at: moment(selected[0]).format(
+                                    "YYYY-MM-DD HH:mm:ss"
+                                  ),
+                                }),
+                            }}
+                            value={form.expire_at}
+                            placeholder="Select Expire DateTime"
                           />
                           <ValidationMessage error={errors} name="expire_at" />
                         </div>

@@ -12,6 +12,9 @@ import { ValidationMessage, frameDataOptions } from "../../components/Utils";
 import { DROPDOWN, VALIDATION_ERROR } from "../../constant/constant";
 import { Image } from "react-bootstrap";
 import { toast } from "react-toastify";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_red.css";
+import moment from "moment";
 
 const CreateDiscount = () => {
   const navigate = useNavigate();
@@ -251,13 +254,29 @@ const CreateDiscount = () => {
                           EXPIRED AT<span className="text-danger">*</span>
                         </label>
                         <div className="col-md-12">
-                          <input
+                          {/* <input
                             className="form-control"
                             type="datetime-local"
                             id="html5-datetime-local-input"
                             onChange={(e) =>
                               setForm({ ...form, expire_at: e.target.value })
                             }
+                          /> */}
+                          <Flatpickr
+                            className="form-control"
+                            options={{
+                              dateFormat: "Y-m-d H:i:S",
+                              enableTime: true,
+                              minDate: "today",
+                              onChange: (selected) =>
+                                setForm({
+                                  ...form,
+                                  expire_at: moment(selected[0]).format(
+                                    "YYYY-MM-DD HH:mm:ss"
+                                  ),
+                                }),
+                            }}
+                            placeholder="Select Expire DateTime"
                           />
                           <ValidationMessage error={errors} name="expire_at" />
                         </div>

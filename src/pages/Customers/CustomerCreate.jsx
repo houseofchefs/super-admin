@@ -5,6 +5,9 @@ import { CUSTOMER_CREATE } from "../../routes/routes";
 import { toast } from "react-toastify";
 import { CUSTOMER_CREATED, VALIDATION_ERROR } from "../../constant/constant";
 import { ValidationMessage } from "../../components/Utils";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_red.css";
+import moment from "moment";
 
 const CustomerCreate = () => {
   const navigate = useNavigate();
@@ -71,7 +74,10 @@ const CustomerCreate = () => {
                     </div>
                     <div className="col-md-6">
                       <div className="mb-3">
-                        <label className="form-label" htmlFor="basic-default-email">
+                        <label
+                          className="form-label"
+                          htmlFor="basic-default-email"
+                        >
                           Email<span className="text-danger">*</span>
                         </label>
                         <input
@@ -95,8 +101,8 @@ const CustomerCreate = () => {
                           Mobile<span className="text-danger">*</span>
                         </label>
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control hide-arrow"
                           id="basic-default-mobile"
                           placeholder="Mobile No"
                           onChange={(e) =>
@@ -114,13 +120,27 @@ const CustomerCreate = () => {
                         >
                           DOB<span className="text-danger">*</span>
                         </label>
-                        <input
+                        {/* <input
                           type="date"
                           className="form-control"
                           id="basic-default-mobile"
                           onChange={(e) =>
                             setForm({ ...form, dob: e.target.value })
                           }
+                        /> */}
+                        <Flatpickr
+                          className="form-control"
+                          options={{
+                            dateFormat: "Y-m-d",
+                            enableTime: false,
+                            maxDate: "today",
+                            onChange: (selected) =>
+                              setForm({
+                                ...form,
+                                dob: moment(selected[0]).format("YYYY-MM-DD"),
+                              }),
+                          }}
+                          placeholder="Select DOB"
                         />
                         <ValidationMessage error={errors} name="dob" />
                       </div>

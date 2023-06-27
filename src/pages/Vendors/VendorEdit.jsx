@@ -13,6 +13,9 @@ import AsyncSelect from "react-select/async";
 import Select from "react-select";
 import axios from "axios";
 import { Image } from "react-bootstrap";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_green.css";
+import moment from "moment";
 
 const VendorEdit = () => {
   const navigate = useNavigate();
@@ -240,7 +243,7 @@ const VendorEdit = () => {
                           Email<span className="text-danger">*</span>
                         </label>
                         <input
-                          type="text"
+                          type="email"
                           className="form-control"
                           id="basic-default-email"
                           placeholder="Email"
@@ -261,8 +264,8 @@ const VendorEdit = () => {
                           Mobile<span className="text-danger">*</span>
                         </label>
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control hide-arrow"
                           id="basic-default-mobile"
                           placeholder="Mobile No"
                           defaultValue={form.mobile}
@@ -281,15 +284,31 @@ const VendorEdit = () => {
                         >
                           Open Time<span className="text-danger">*</span>
                         </label>
-                        <input
+                        {/* <input
                           type="time"
                           className="form-control"
                           id="basic-default-mobile"
                           placeholder="Open TIme"
-                          defaultValue={form.open_time}
                           onChange={(e) =>
                             setForm({ ...form, open_time: e.target.value })
                           }
+                        /> */}
+                        <Flatpickr
+                          className="form-control"
+                          options={{
+                            enableTime: true,
+                            noCalendar: true,
+                            dateFormat: "H:i K",
+                            onChange: (selected) => {
+                              const utcDate = moment.utc(selected[0]); // UTC date and time
+                              const istDate = utcDate
+                                .utcOffset("+05:30")
+                                .format("HH:mm:ss");
+                              setForm({ ...form, open_time: istDate });
+                            },
+                          }}
+                          value={form?.open_time}
+                          placeholder="Select open time"
                         />
                         <ValidationMessage error={errors} name="open_time" />
                       </div>
@@ -302,15 +321,31 @@ const VendorEdit = () => {
                         >
                           Close Time<span className="text-danger">*</span>
                         </label>
-                        <input
+                        {/* <input
                           type="time"
                           className="form-control"
                           id="basic-default-mobile"
                           placeholder="close_time"
-                          defaultValue={form.close_time}
                           onChange={(e) =>
                             setForm({ ...form, close_time: e.target.value })
                           }
+                        /> */}
+                        <Flatpickr
+                          className="form-control"
+                          options={{
+                            enableTime: true,
+                            noCalendar: true,
+                            dateFormat: "H:i K",
+                            onChange: (selected) => {
+                              const utcDate = moment.utc(selected[0]); // UTC date and time
+                              const istDate = utcDate
+                                .utcOffset("+05:30")
+                                .format("HH:mm:ss");
+                              setForm({ ...form, close_time: istDate });
+                            },
+                          }}
+                          value={form?.close_time}
+                          placeholder="Select close time"
                         />
                         <ValidationMessage error={errors} name="close_time" />
                       </div>
@@ -324,18 +359,22 @@ const VendorEdit = () => {
                           Order Accept Time
                           <span className="text-danger">*</span>
                         </label>
-                        <input
-                          type="time"
+                        <Flatpickr
                           className="form-control"
-                          id="basic-default-mobile"
-                          placeholder="Order Accept Time"
-                          defaultValue={form.order_accept_time}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              order_accept_time: e.target.value,
-                            })
-                          }
+                          options={{
+                            enableTime: true,
+                            noCalendar: true,
+                            dateFormat: "H:i K",
+                            onChange: (selected) => {
+                              const utcDate = moment.utc(selected[0]); // UTC date and time
+                              const istDate = utcDate
+                                .utcOffset("+05:30")
+                                .format("HH:mm:ss");
+                              setForm({ ...form, order_accept_time: istDate });
+                            },
+                          }}
+                          value={form?.order_accept_time}
+                          placeholder="Select order accept time"
                         />
                         <ValidationMessage
                           error={errors}
@@ -513,8 +552,8 @@ const VendorEdit = () => {
                           Account No<span className="text-danger">*</span>
                         </label>
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control hide-arrow"
                           id="account-no"
                           placeholder="Account No"
                           defaultValue={form.account_number}
