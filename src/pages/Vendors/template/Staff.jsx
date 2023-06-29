@@ -188,9 +188,9 @@ const Staff = () => {
                 Mobile<span className="text-danger">*</span>
               </label>
               <input
-                type="text"
+                type="number"
                 name="mobile"
-                className="form-control"
+                className="form-control hide-arrow"
                 placeholder="Mobile"
                 onChange={(e) => setForm({ ...form, mobile: e.target.value })}
               />

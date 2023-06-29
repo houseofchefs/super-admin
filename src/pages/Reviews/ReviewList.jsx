@@ -44,7 +44,7 @@ const ReviewList = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Action</th>
+                  {/* <th>Action</th>  */}
                   <th>Order No</th>
                   <th>Price</th>
                   <th>Customer Name</th>

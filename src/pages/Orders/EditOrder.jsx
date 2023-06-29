@@ -328,6 +328,7 @@ const EditOrder = () => {
                               }
                               className="form-control"
                             ></textarea>
+                            <ValidationMessage error={errors} name="instructions" />
                           </div>
                         </div>
                       </div>
