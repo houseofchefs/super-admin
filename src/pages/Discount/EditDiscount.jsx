@@ -20,8 +20,7 @@ const EditDiscount = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [form, setForm] = useState({
-    image:
-      "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
+    expire_at: moment().format("YYYY-MM-DD HH:mm:ss")
   });
   const [type, setType] = useState([]);
   const [vendor, setVendor] = useState([]);
@@ -119,7 +118,7 @@ const EditDiscount = () => {
                 },
           name: res.data.data.name,
           percentage: res.data.data.percentage,
-          expire_at: res.data.data.expire_at,
+          expire_at: moment(res.data.data.expire_at).format("YYYY-MM-DD HH:mm:ss"),
           image: res.data.data.image,
           cardImage: res.data.data.image,
           status: {
@@ -129,7 +128,6 @@ const EditDiscount = () => {
           description: res.data.data.description,
         }));
       }
-      console.log(res.data.data);
     });
     /**
      * Common Status
@@ -344,13 +342,10 @@ const EditDiscount = () => {
                             options={{
                               dateFormat: "Y-m-d H:i:S",
                               enableTime: true,
-                              minDate: "today",
                               onChange: (selected) =>
                                 setForm({
                                   ...form,
-                                  expire_at: moment(selected[0]).format(
-                                    "YYYY-MM-DD HH:mm:ss"
-                                  ),
+                                  expire_at: moment(selected[0]).format("YYYY-MM-DD HH:mm:ss"),
                                 }),
                             }}
                             value={form.expire_at}
