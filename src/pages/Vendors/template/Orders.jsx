@@ -126,6 +126,7 @@ const Orders = () => {
                 <th>Item Count</th>
                 <th>Price</th>
                 <th>Order At</th>
+                <th>Pre-Order</th>
                 <th>Instructions</th>
                 <th>Payment Method</th>
                 <th>Payment Status</th>
@@ -162,6 +163,7 @@ const Orders = () => {
                         .local()
                         .format("YYYY-MM-DD hh:mm A")}
                     </td>
+                    <td>{order?.pre_booking === 1 ? "Pre-Order" : "Order"}</td>
                     <td>{order?.instructions}</td>
                     <td>
                       {order?.payments?.payment_method != null
