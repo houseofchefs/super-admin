@@ -576,7 +576,7 @@ const VendorEdit = () => {
                           options={accountType}
                           value={form.account_type}
                           onChange={(selected) =>
-                            setForm({ ...form, account_type: selected.value })
+                            setForm({ ...form, account_type: selected })
                           }
                         />
                         <ValidationMessage error={errors} name="account_type" />
