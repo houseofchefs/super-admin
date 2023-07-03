@@ -298,7 +298,7 @@ const VendorEdit = () => {
                           options={{
                             enableTime: true,
                             noCalendar: true,
-                            dateFormat: "H:i K",
+                            dateFormat: "H:i",
                             onChange: (selected) => {
                               const utcDate = moment.utc(selected[0]); // UTC date and time
                               const istDate = utcDate
@@ -335,7 +335,7 @@ const VendorEdit = () => {
                           options={{
                             enableTime: true,
                             noCalendar: true,
-                            dateFormat: "H:i K",
+                            dateFormat: "H:i",
                             onChange: (selected) => {
                               const utcDate = moment.utc(selected[0]); // UTC date and time
                               const istDate = utcDate
@@ -364,7 +364,7 @@ const VendorEdit = () => {
                           options={{
                             enableTime: true,
                             noCalendar: true,
-                            dateFormat: "H:i K",
+                            dateFormat: "H:i",
                             onChange: (selected) => {
                               const utcDate = moment.utc(selected[0]); // UTC date and time
                               const istDate = utcDate
