@@ -22,7 +22,7 @@ const MenuCreateModal = ({
   const [form, setForm] = useState({
     vendor_id: id,
     isPreOrder: 0,
-    isDaily: 0,
+    isDaily: 1,
     menu_type: "menu",
   });
   const [errors, setErrors] = useState([]);
