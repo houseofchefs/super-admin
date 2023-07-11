@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Image } from "react-bootstrap";
 import { CREATE_PRODUCT, SUBMODULES } from "../../../routes/routes";
-import { STATUS, VALIDATION_ERROR } from "../../../constant/constant";
+import { MENU_STATUS, VALIDATION_ERROR } from "../../../constant/constant";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -60,7 +60,7 @@ const ProductEditModal = ({
   };
 
   useEffect(() => {
-    axios.get(SUBMODULES + STATUS).then((response) => {
+    axios.get(SUBMODULES + MENU_STATUS).then((response) => {
       if (response.status === 200) {
         let statusData = frameDataOptions(
           response.data.data,
