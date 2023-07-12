@@ -51,6 +51,7 @@ const OrderList = () => {
                   <th>Order No</th>
                   <th>Customers</th>
                   <th>Price</th>
+                  <th>Pre-Order</th>
                   <th>Vendor</th>
                   <th>Status</th>
                 </tr>
@@ -77,6 +78,7 @@ const OrderList = () => {
                       <td>{order?.order_no}</td>
                       <td>{order?.customers?.name}</td>
                       <td>{order?.price}</td>
+                      <td>{order?.pre_booking === 1 ? "Pre-Order" : "Order"}</td>
                       <td>{order?.vendor?.name}</td>
                       <td>{order?.status?.module_name}</td>
                     </tr>

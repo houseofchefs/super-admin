@@ -12,13 +12,15 @@ import {
 } from "../../routes/routes";
 import { DROPDOWN, VALIDATION_ERROR } from "../../constant/constant";
 import axios from "axios";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_red.css";
+import moment from "moment";
 
 const EditDiscount = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [form, setForm] = useState({
-    image:
-      "https://images.unsplash.com/photo-1602253057119-44d745d9b860?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80",
+    expire_at: moment().format("YYYY-MM-DD HH:mm:ss")
   });
   const [type, setType] = useState([]);
   const [vendor, setVendor] = useState([]);
@@ -116,7 +118,7 @@ const EditDiscount = () => {
                 },
           name: res.data.data.name,
           percentage: res.data.data.percentage,
-          expire_at: res.data.data.expire_at,
+          expire_at: moment(res.data.data.expire_at).format("YYYY-MM-DD HH:mm:ss"),
           image: res.data.data.image,
           cardImage: res.data.data.image,
           status: {
@@ -126,7 +128,6 @@ const EditDiscount = () => {
           description: res.data.data.description,
         }));
       }
-      console.log(res.data.data);
     });
     /**
      * Common Status
@@ -178,7 +179,7 @@ const EditDiscount = () => {
                           </div>
                           <div>
                             <label htmlFor="pixel">Pixels :</label>
-                            <span> 100px * 100px </span>
+                            <span>875px * 1400px </span>
                           </div>
                         </div>
                       </div>
@@ -327,7 +328,7 @@ const EditDiscount = () => {
                           EXPIRED AT<span className="text-danger">*</span>
                         </label>
                         <div className="col-md-12">
-                          <input
+                          {/* <input
                             className="form-control"
                             type="datetime-local"
                             id="html5-datetime-local-input"
@@ -335,6 +336,20 @@ const EditDiscount = () => {
                             onChange={(e) =>
                               setForm({ ...form, expire_at: e.target.value })
                             }
+                          /> */}
+                          <Flatpickr
+                            className="form-control"
+                            options={{
+                              dateFormat: "Y-m-d H:i:S",
+                              enableTime: true,
+                              onChange: (selected) =>
+                                setForm({
+                                  ...form,
+                                  expire_at: moment(selected[0]).format("YYYY-MM-DD HH:mm:ss"),
+                                }),
+                            }}
+                            value={form.expire_at}
+                            placeholder="Select Expire DateTime"
                           />
                           <ValidationMessage error={errors} name="expire_at" />
                         </div>

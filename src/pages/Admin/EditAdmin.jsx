@@ -1,22 +1,26 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ADMIN_EDIT, ADMIN_UPDATE } from "../../routes/routes";
+import { ADMIN_EDIT, ADMIN_UPDATE, SUBMODULES } from "../../routes/routes";
 import { toast } from "react-toastify";
-import { VALIDATION_ERROR } from "../../constant/constant";
-import { ValidationMessage } from "../../components/Utils";
+import Select from "react-select";
+import { STATUS, VALIDATION_ERROR } from "../../constant/constant";
+import { ValidationMessage, frameDataOptions } from "../../components/Utils";
 
 const EditAdmin = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [status, setStatus] = useState([]);
   const [form, setForm] = useState({
     referral: "",
   });
   const [errors, setErrors] = useState({});
 
   const submit = () => {
+    let requestBody = { ...form };
+    requestBody = { ...form, status: form?.status?.value };
     axios
-      .put(ADMIN_UPDATE + id, form)
+      .put(ADMIN_UPDATE + id, requestBody)
       .then((res) => {
         if (res.status === 200 && res.data.status) {
           toast.success("Updated Successfully!");
@@ -34,14 +38,25 @@ const EditAdmin = () => {
 
   useEffect(() => {
     axios.get(ADMIN_EDIT + id).then((res) => {
-        if (res.status === 200 && res.data.status) {
-          setForm({
-            name: res.data.data.name,
-            mobile: res.data.data.mobile,
-            email: res.data.data.email
-          });
-        }
-      });
+      if (res.status === 200 && res.data.status) {
+        setForm({
+          name: res.data.data.name,
+          mobile: res.data.data.mobile,
+          email: res.data.data.email,
+          status: {
+            label: res.data.data?.status?.module_name,
+            value: res.data.data?.status?.id,
+          },
+        });
+      }
+    });
+
+    axios.get(SUBMODULES + STATUS).then((res) => {
+      if (res.status === 200 && res.data.data.length > 0) {
+        let data = frameDataOptions(res.data.data, "id", "module_name");
+        setStatus(data);
+      }
+    });
   }, [id]);
   return (
     <div className="content-wrapper">
@@ -113,8 +128,8 @@ const EditAdmin = () => {
                           Mobile<span className="text-danger">*</span>
                         </label>
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control hide-arrow"
                           id="basic-default-mobile"
                           placeholder="Mobile"
                           defaultValue={form.mobile}
@@ -123,6 +138,27 @@ const EditAdmin = () => {
                           }
                         />
                         <ValidationMessage error={errors} name="mobile" />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <label
+                          className="form-label"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Status<span className="text-danger">*</span>
+                        </label>
+                        <Select
+                          options={status}
+                          value={form.status}
+                          onChange={(selected) =>
+                            setForm({
+                              ...form,
+                              status: selected,
+                            })
+                          }
+                        />
+                        <ValidationMessage error={errors} name="status" />
                       </div>
                     </div>
                     <div className="demo-inline-spacing d-flex justify-content-end">

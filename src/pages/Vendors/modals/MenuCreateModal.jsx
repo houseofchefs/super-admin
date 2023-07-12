@@ -111,7 +111,7 @@ const MenuCreateModal = ({
                   </div>
                   <div>
                     <label htmlFor="pixel">Pixels :</label>
-                    <span> 100px * 100px </span>
+                    <span>875px * 1400px </span>
                   </div>
                 </div>
               </div>

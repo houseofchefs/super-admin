@@ -98,8 +98,8 @@ const CreateAdmin = () => {
                           Mobile<span className="text-danger">*</span>
                         </label>
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control hide-arrow"
                           id="basic-default-mobile"
                           placeholder="Mobile"
                           onChange={(e) =>

@@ -10,13 +10,15 @@ import "moment/locale/en-in";
 
 const Orders = () => {
   const { id } = useParams();
-  const [code, setCode] = useState("OS01");
-  const [data, setData] = useState([]);
-  const [paginator, setPaginator] = useState({});
   const [page, setPage] = useState(1);
-  const [detailsModal, setDetailModal] = useState(false);
-  const [detailData, setDetailData] = useState({});
+  const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
+  const [code, setCode] = useState("OS01");
+  const [paginator, setPaginator] = useState({});
+  const [detailData, setDetailData] = useState({});
+  const [confirmation, setConfirmation] = useState({});
+  const [detailsModal, setDetailModal] = useState(false);
+  const [confirmationModal, setConfirmationModal] = useState(false);
 
   const nextAction = (id, code) => {
     axios.get(ORDER_NEXT_ACTION + `${id}/${code}`).then((response) => {
@@ -124,6 +126,7 @@ const Orders = () => {
                 <th>Item Count</th>
                 <th>Price</th>
                 <th>Order At</th>
+                <th>Pre-Order</th>
                 <th>Instructions</th>
                 <th>Payment Method</th>
                 <th>Payment Status</th>
@@ -160,6 +163,7 @@ const Orders = () => {
                         .local()
                         .format("YYYY-MM-DD hh:mm A")}
                     </td>
+                    <td>{order?.pre_booking === 1 ? "Pre-Order" : "Order"}</td>
                     <td>{order?.instructions}</td>
                     <td>
                       {order?.payments?.payment_method != null
@@ -185,7 +189,13 @@ const Orders = () => {
         size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        onHide={() => setDetailModal(false)}
       >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Order Details
+          </Modal.Title>
+        </Modal.Header>
         <Modal.Body>
           <div className="tab-content">
             <div
@@ -193,235 +203,255 @@ const Orders = () => {
               id="navs-pills-top-home"
               role="tabpanel"
             >
-              <div className="mb-4">
-                <div className="card-header d-flex justify-content-between align-items-center">
-                  <h5 className="mb-0">Order Details</h5>
-                </div>
-                <div className="card-body py-0">
-                  <form>
-                    <div className="row">
-                      <div className="col-md-4">
-                        <div className="mb-4">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Order No
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData.order_no}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Customer Name
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData?.customers?.name}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Delivery Location
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData?.address?.address_line}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-4">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Order At
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData.order_at}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Item Count
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData?.item_count}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Total Amount
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData?.price}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Discount
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData?.discount} %
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Rider Name
-                          </label>
-                          <span className="d-block font-weight-600">NA</span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Instructions
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData?.instructions}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Payment Method
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData?.payments?.payment_method}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Payment Status
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData?.payments?.status?.module_name}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="mb-3">
-                          <label
-                            className="form-label m-0"
-                            htmlFor="basic-default-fullname"
-                          >
-                            Order Status
-                          </label>
-                          <span className="d-block font-weight-600">
-                            {detailData?.status?.module_name}
-                          </span>
-                        </div>
+              <div className="card-body py-0">
+                <form>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="mb-4">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Order No
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData.order_no}
+                        </span>
                       </div>
                     </div>
-                  </form>
-                </div>
-                <div className="card-header d-flex justify-content-between align-items-center">
-                  <h5 className="mb-0">Menu Details</h5>
-                  {code === "OS01" && (
-                    <div>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-secondary me-2 rounded-pill"
-                        data-bs-dismiss="modal"
-                        onClick={() => nextAction(detailData.id, "OS03")}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-success rounded-pill"
-                        data-bs-dismiss="modal"
-                        onClick={() => nextAction(detailData.id, "OS02")}
-                      >
-                        Accept
-                      </button>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Customer Name
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData?.customers?.name}
+                        </span>
+                      </div>
                     </div>
-                  )}
-                  {code === "OS02" && (
-                    <div>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-secondary me-2 rounded-pill"
-                        data-bs-dismiss="modal"
-                        onClick={() => nextAction(detailData.id, "OS03")}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-primary rounded-pill"
-                        data-bs-dismiss="modal"
-                        onClick={() => nextAction(detailData.id, "OS04")}
-                      >
-                        Delivery
-                      </button>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Delivery Location
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData?.address?.address_line}
+                        </span>
+                      </div>
                     </div>
-                  )}
-                </div>
-                <div className="table-responsive text-nowrap">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                      </tr>
-                    </thead>
-                    <tbody className="table-border-bottom-0">
-                      {detailData.hasOwnProperty("details") &&
-                        detailData?.details.length > 0 &&
-                        detailData?.details.map((detail, i) => (
-                          <tr key={i}>
-                            <td>{detail?.menu?.name}</td>
-                            <td>{detail?.menu?.price}</td>
-                            <td>{detail?.quantity}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                </div>
+                    <div className="col-md-4">
+                      <div className="mb-4">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Order At
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData.order_at}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Item Count
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData?.item_count}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Total Amount
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData?.price}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Discount
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData?.discount} %
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Rider Name
+                        </label>
+                        <span className="d-block font-weight-600">NA</span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Instructions
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData?.instructions}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Payment Method
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData?.payments?.payment_method}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Payment Status
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData?.payments?.status?.module_name}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label
+                          className="form-label m-0"
+                          htmlFor="basic-default-fullname"
+                        >
+                          Order Status
+                        </label>
+                        <span className="d-block font-weight-600">
+                          {detailData?.status?.module_name}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div className="card-header d-flex justify-content-between align-items-center">
+                <h5 className="mb-0">Menu Details</h5>
+                {code === "OS01" && (
+                  <div>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-secondary me-2 rounded-pill"
+                      data-bs-dismiss="modal"
+                      // onClick={() => nextAction(detailData.id, "OS03")}
+                      onClick={() => {
+                        setConfirmationModal(true);
+                        setConfirmation({
+                          message: "Are you sure, you want cancel this order?",
+                          fn: () => nextAction(detailData.id, "OS03"),
+                        });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-success rounded-pill"
+                      data-bs-dismiss="modal"
+                      onClick={() => {
+                        setConfirmationModal(true);
+                        setConfirmation({
+                          message: "Are you sure, you want accept this order?",
+                          fn: () => nextAction(detailData.id, "OS02"),
+                        });
+                      }}
+                    >
+                      Accept
+                    </button>
+                  </div>
+                )}
+                {code === "OS02" && (
+                  <div>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-secondary me-2 rounded-pill"
+                      data-bs-dismiss="modal"
+                      onClick={() => {
+                        setConfirmationModal(true);
+                        setConfirmation({
+                          message: "Are you sure, you want cancel this order?",
+                          fn: () => nextAction(detailData.id, "OS03"),
+                        });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-primary rounded-pill"
+                      data-bs-dismiss="modal"
+                      onClick={() => {
+                        setConfirmationModal(true);
+                        setConfirmation({
+                          message: "Are you sure? You want to mark this order to delivery!",
+                          fn: () => nextAction(detailData.id, "OS04"),
+                        });
+                      }}
+                    >
+                      Delivery
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="table-responsive text-nowrap">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody className="table-border-bottom-0">
+                    {detailData.hasOwnProperty("details") &&
+                      detailData?.details.length > 0 &&
+                      detailData?.details.map((detail, i) => (
+                        <tr key={i}>
+                          <td>{detail?.menu?.name}</td>
+                          <td>{detail?.menu?.price}</td>
+                          <td>{detail?.quantity}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -436,6 +466,39 @@ const Orders = () => {
             Close
           </button>
         </Modal.Footer>
+      </Modal>
+      <Modal
+        show={confirmationModal}
+        size="sm"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        onHide={() => setConfirmationModal(false)}
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <h6>{confirmation?.message}</h6>
+          <div className="text-center">
+            <button
+              onClick={() => {
+                setConfirmationModal(false);
+                setConfirmation({});
+              }}
+              className="btn btn-danger btn-sm me-2"
+            >
+              No
+            </button>
+            <button
+              onClick={() => {
+                confirmation.fn();
+                setConfirmationModal(false);
+                setConfirmation({});
+              }}
+              className="btn btn-success btn-sm"
+            >
+              Yes
+            </button>
+          </div>
+        </Modal.Body>
       </Modal>
     </div>
   );

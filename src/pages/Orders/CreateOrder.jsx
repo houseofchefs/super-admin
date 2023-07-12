@@ -13,10 +13,13 @@ import { DROPDOWN, VALIDATION_ERROR } from "../../constant/constant";
 import { ValidationMessage, frameDataOptions } from "../../components/Utils";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const CreateOrder = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({
+    expected_delivery: moment().format("YYYY-MM-DD HH:mm:ss")
+  });
   const [address, setAddress] = useState([]);
   const [customer, setCustomer] = useState([]);
   const [vendor, setVendor] = useState([]);
@@ -327,6 +330,7 @@ const CreateOrder = () => {
                               }
                               className="form-control"
                             ></textarea>
+                            <ValidationMessage error={errors} name="instructions" />
                           </div>
                         </div>
                       </div>

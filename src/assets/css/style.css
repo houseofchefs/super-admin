@@ -349,3 +349,18 @@ border-color: hsl(0, 100%, 75%);
   font-size: 12px;
   color:#ff6969 ;
 }
+
+.hide-arrow::-webkit-inner-spin-button,
+.hide-arrow::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.hide-arrow {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Optional: To hide the up and down arrow buttons on Firefox */
+.hide-arrow::-moz-number-spin-box {
+  display: none;
+}
